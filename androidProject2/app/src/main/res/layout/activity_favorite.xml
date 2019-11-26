@@ -15,6 +15,9 @@
         app:menu="@menu/bottom_nav"
         app:itemBackground="@color/colorPrimary"
         app:itemIconTint="@android:color/white"
-        app:itemTextColor="@android:color/white" />
+        app:itemTextColor="@android:color/white"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="30dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
