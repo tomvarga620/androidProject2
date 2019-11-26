@@ -6,12 +6,12 @@
         android:title="Home"
         android:id="@+id/home_action"
         android:enabled="true"
-        android:icon="@drawable/ic_playlist_play_24px"
+        android:icon="@drawable/ic_home_24px"
         app:showAsAction="ifRoom"
     />
 
     <item
-        android:title="Playlist"
+        android:title="Favorites"
         android:id="@+id/favorite_action"
         android:enabled="true"
         android:icon="@drawable/ic_favorite_border_24px"
