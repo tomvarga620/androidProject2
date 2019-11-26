@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".FavoriteActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -16,5 +16,5 @@
         app:itemBackground="@color/colorPrimary"
         app:itemIconTint="@android:color/white"
         app:itemTextColor="@android:color/white" />
-</androidx.constraintlayout.widget.ConstraintLayout>
 
+</androidx.constraintlayout.widget.ConstraintLayout>
