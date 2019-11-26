@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="AppTheme">
-        <attr name="colorbkg" format="color" />
         <attr name="colortext" format="color" />
         <attr name="coloricon" format="color" />
+        <attr name="coloriconchecked" format="color" />
+        <attr name="colorbar" format="color" />
     </declare-styleable>
 </resources>

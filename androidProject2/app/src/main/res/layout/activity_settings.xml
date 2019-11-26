@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradientbkg"
     tools:context=".SettingsActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -11,10 +12,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="?attr/colorbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@android:color/white"
-        app:itemTextColor="@android:color/white" />
+        app:itemIconTint="?attr/coloricon"
+        app:itemTextColor="?attr/colortext"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="30dp"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textColor="?attr/colortext"
+        android:textSize="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.225"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.055" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
