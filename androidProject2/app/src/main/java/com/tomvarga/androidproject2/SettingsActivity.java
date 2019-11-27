@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -19,6 +22,9 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         bottomNav = findViewById(R.id.bottom_navigation);
+        Menu menu = bottomNav.getMenu();
+        MenuItem menuItem = menu.getItem(2);
+        menuItem.setChecked(true);
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -35,8 +41,6 @@ public class SettingsActivity extends AppCompatActivity {
                         break;
 
                     case R.id.settings_action:
-                        startActivity(new Intent(SettingsActivity.this,SettingsActivity.class));
-                        finish();
                         break;
                 }return true;
             }

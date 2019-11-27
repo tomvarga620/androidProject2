@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -19,6 +20,9 @@ public class FavoriteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favorite);
 
         bottomNav = findViewById(R.id.bottom_navigation);
+        Menu menu = bottomNav.getMenu();
+        MenuItem menuItem = menu.getItem(1);
+        menuItem.setChecked(true);
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -30,8 +34,6 @@ public class FavoriteActivity extends AppCompatActivity {
                         break;
 
                     case R.id.favorite_action:
-                        startActivity(new Intent(FavoriteActivity.this,FavoriteActivity.class));
-                        finish();
                         break;
 
                     case R.id.settings_action:
@@ -42,4 +44,5 @@ public class FavoriteActivity extends AppCompatActivity {
             }
         });
     }
+
 }

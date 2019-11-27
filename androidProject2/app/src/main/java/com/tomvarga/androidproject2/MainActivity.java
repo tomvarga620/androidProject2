@@ -1,12 +1,12 @@
 package com.tomvarga.androidproject2;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -20,14 +20,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNav = findViewById(R.id.bottom_navigation);
+        Menu menu = bottomNav.getMenu();
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setChecked(true);
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch(menuItem.getItemId()){
                     case R.id.home_action:
-                        startActivity(new Intent(MainActivity.this,MainActivity.class));
-                        finish();
+
                         break;
 
                     case R.id.favorite_action:
@@ -43,4 +45,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
