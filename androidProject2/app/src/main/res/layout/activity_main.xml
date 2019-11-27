@@ -27,6 +27,7 @@
         android:text="Discover"
         android:textColor="?attr/colortext"
         android:textSize="60dp"
+        app:fontFamily="@font/open_sans_semibold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.225"
         app:layout_constraintLeft_toLeftOf="parent"
