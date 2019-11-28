@@ -8,7 +8,6 @@
         <item name="coloriconchecked">#FFC700</item>
         <item name="colorbar">#FFFFFF</item>
         <item name="bkgcolor">@drawable/gradientbkg</item>
-
     </style>
 
     <style name="DarkTheme" parent="Theme.AppCompat.Light.NoActionBar">
