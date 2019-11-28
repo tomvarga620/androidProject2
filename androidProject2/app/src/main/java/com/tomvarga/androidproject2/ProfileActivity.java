@@ -4,15 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class SettingsActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
 
@@ -33,13 +31,15 @@ public class SettingsActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch(menuItem.getItemId()){
                     case R.id.home_action:
-                        Intent homeIntent = new Intent(SettingsActivity.this,MainActivity.class);
+                        Intent homeIntent = new Intent(ProfileActivity.this,MainActivity.class);
                         startActivity(homeIntent);
+                        finish();
                         break;
 
                     case R.id.favorite_action:
-                        Intent favoriteIntent = new Intent(SettingsActivity.this,FavoriteActivity.class);
+                        Intent favoriteIntent = new Intent(ProfileActivity.this,FavoriteActivity.class);
                         startActivity(favoriteIntent);
+                        finish();
                         break;
 
                     case R.id.settings_action:
@@ -47,5 +47,11 @@ public class SettingsActivity extends AppCompatActivity {
                 }return true;
             }
         });
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.slide_out_left);
     }
 }

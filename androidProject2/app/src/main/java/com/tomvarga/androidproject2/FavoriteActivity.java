@@ -29,7 +29,8 @@ public class FavoriteActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch(menuItem.getItemId()){
                     case R.id.home_action:
-                        startActivity(new Intent(FavoriteActivity.this,MainActivity.class));
+                        Intent homeIntent = new Intent(FavoriteActivity.this,MainActivity.class);
+                        startActivity(homeIntent);
                         finish();
                         break;
 
@@ -37,12 +38,19 @@ public class FavoriteActivity extends AppCompatActivity {
                         break;
 
                     case R.id.settings_action:
-                        Intent settingsIntent = new Intent(FavoriteActivity.this, SettingsActivity.class);
+                        Intent settingsIntent = new Intent(FavoriteActivity.this, ProfileActivity.class);
                         startActivity(settingsIntent);
+                        finish();
                         break;
                 }return true;
             }
         });
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.slide_out_left);
     }
 
 }

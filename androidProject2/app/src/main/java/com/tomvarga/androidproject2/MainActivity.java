@@ -36,15 +36,23 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.favorite_action:
                         Intent favoriteIntent = new Intent(MainActivity.this,FavoriteActivity.class);
                         startActivity(favoriteIntent);
+                        finish();
                         break;
 
                     case R.id.settings_action:
-                        Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                        Intent settingsIntent = new Intent(MainActivity.this, ProfileActivity.class);
                         startActivity(settingsIntent);
+                        finish();
                         break;
                 }return true;
             }
         });
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.slide_out_left);
     }
 
 
