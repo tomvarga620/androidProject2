@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -16,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setDarkmode();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -47,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
                 }return true;
             }
         });
+    }
+
+
+    public void setDarkmode() {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
     }
 
     @Override

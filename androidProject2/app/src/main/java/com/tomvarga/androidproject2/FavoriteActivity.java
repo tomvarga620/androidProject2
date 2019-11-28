@@ -2,11 +2,15 @@ package com.tomvarga.androidproject2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Constraints;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -16,6 +20,9 @@ public class FavoriteActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setDarkmode();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
 
@@ -45,6 +52,14 @@ public class FavoriteActivity extends AppCompatActivity {
                 }return true;
             }
         });
+    }
+
+    public void setDarkmode() {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
     }
 
     @Override

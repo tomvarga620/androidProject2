@@ -2,11 +2,14 @@ package com.tomvarga.androidproject2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -17,9 +20,27 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        setDarkmode();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        Switch switchDarkMode = findViewById(R.id.switchDarkMode);
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            switchDarkMode.setChecked(true);
+        }
+        switchDarkMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    restart();
+                }else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    restart();
+                }
+            }
+        });
 
         bottomNav = findViewById(R.id.bottom_navigation);
         Menu menu = bottomNav.getMenu();
@@ -47,6 +68,20 @@ public class ProfileActivity extends AppCompatActivity {
                 }return true;
             }
         });
+    }
+
+    private void restart() {
+        Intent i = new Intent(getApplicationContext(),ProfileActivity.class);
+        startActivity(i);
+        //finish();
+    }
+
+    public void setDarkmode() {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
     }
 
     @Override
