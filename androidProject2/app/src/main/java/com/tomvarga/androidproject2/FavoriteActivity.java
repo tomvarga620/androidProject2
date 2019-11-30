@@ -17,11 +17,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class FavoriteActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
-
+    SharedPrefs modSharedPrefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        setDarkmode();
+        modSharedPrefs = new SharedPrefs(this);
+        if (modSharedPrefs.loadDarkModeState() == true) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
@@ -52,14 +56,6 @@ public class FavoriteActivity extends AppCompatActivity {
                 }return true;
             }
         });
-    }
-
-    public void setDarkmode() {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkTheme);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
     }
 
     @Override

@@ -17,27 +17,31 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class ProfileActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
-
+    SharedPrefs modSharedPrefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        setDarkmode();
+        modSharedPrefs = new SharedPrefs(this);
+        if (modSharedPrefs.loadDarkModeState() == true) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
         final Switch switchDarkMode = findViewById(R.id.switchDarkMode);
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+        if(modSharedPrefs.loadDarkModeState() == true){
             switchDarkMode.setChecked(true);
         }
         switchDarkMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    modSharedPrefs.setDarkModeState(true);
                     restart();
                 }else{
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    modSharedPrefs.setDarkModeState(false);
                     restart();
                 }
             }
@@ -75,14 +79,6 @@ public class ProfileActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(),ProfileActivity.class);
         startActivity(i);
         //finish();
-    }
-
-    public void setDarkmode() {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkTheme);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
     }
 
     @Override
