@@ -15,7 +15,6 @@ public class SharedPrefs {
         editor.putBoolean("darkmode",state);
         editor.commit();
     }
-
     public Boolean loadDarkModeState(){
         Boolean state = modeSharedPrefs.getBoolean("darkmode",false);
         return state;
