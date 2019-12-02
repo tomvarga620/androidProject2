@@ -31,17 +31,9 @@ public class SongController {
         return (List<Song>) songService.getAllSongs();
     }
 
-
-    //pre testing
-    @GetMapping(value = "/getPath")
-    public String findPath(@RequestParam String auth, @RequestParam String alb, @RequestParam String name) {
-        return songService.findPath(auth,alb,name);
-    }
-
-
-    @RequestMapping(value="download", method=RequestMethod.GET)
-    public void getDownload(HttpServletResponse response, @RequestParam String auth, @RequestParam String alb, @RequestParam String name) {
-        File f = new File(songService.findPath(auth,alb,name));
+    @RequestMapping(value="streamSong", method=RequestMethod.GET)
+    public void getDownload(HttpServletResponse response, @RequestParam String id) {
+        File f = new File(songService.findPath(id));
         InputStream targetStream = null;
         try {
             targetStream = new FileInputStream(f);
@@ -66,12 +58,6 @@ public class SongController {
             e.printStackTrace();
         }
         try {
-            System.out.println("\nRequest on song");
-
-            System.out.println("Author: "+auth);
-            System.out.println("Song name: "+name);
-            System.out.println("Album: "+alb+"\n");
-
             response.flushBuffer();
             //Forces any content in the buffer to be written to the client
         } catch (IOException e) {
