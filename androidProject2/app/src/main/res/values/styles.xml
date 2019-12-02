@@ -10,6 +10,9 @@
         <item name="bkgcolor">@drawable/gradientbkg</item>
         <item name="btnplaycolor">#FFC700</item>
         <item name="btnplaybkgcolor">#FFFFFF</item>
+
+        <item name="colorPrimaryDark">#FFD231</item>
+
     </style>
 
     <style name="DarkTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -21,6 +24,9 @@
         <item name="bkgcolor">@drawable/gradientbkgdark</item>
         <item name="btnplaycolor">#444444</item>
         <item name="btnplaybkgcolor">#FFFFFF</item>
+
+        <item name="colorPrimaryDark">#444444</item>
+
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
