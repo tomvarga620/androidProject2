@@ -38,13 +38,12 @@
         android:id="@+id/songRecyclerViewOnMain"
         android:layout_width="409dp"
         android:layout_height="559dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="70dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/bottom_navigation"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/getReuqest"

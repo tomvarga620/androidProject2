@@ -6,6 +6,7 @@ public class Song {
     private String songName;
     private String album;
 
+
     public Song(String id, String author, String songName, String album) {
         this.id = id;
         this.author = author;
@@ -45,6 +46,7 @@ public class Song {
     public void setAlbum(String album) {
         this.album = album;
     }
+
 
     @Override
     public String toString() {

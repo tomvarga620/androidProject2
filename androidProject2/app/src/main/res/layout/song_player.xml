@@ -2,23 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:padding="5dp">
+    android:layout_height="wrap_content">
+
 
     <TextView
         android:id="@+id/authorTXV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
         android:textAlignment="center"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playOrPause"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +23,7 @@
         android:id="@+id/albumTXV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textAlignment="center"
         android:textSize="12sp"
@@ -38,11 +35,25 @@
         android:id="@+id/songTXV"
         android:layout_width="0dp"
         android:layout_height="15dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@+id/albumTXV"
-        app:layout_constraintStart_toStartOf="@+id/albumTXV"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/albumTXV" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/playOrPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/authorTXV"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/ic_action_play" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

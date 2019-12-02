@@ -1,7 +1,8 @@
 package com.tomvarga.androidproject2;
 
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.media.MediaPlayer;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,12 +38,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         Log.d(TAG,"onBindViewHolder: called new item is added to list");
         holder.authorTXV.setText(listOfSongs.get(position).getAuthor());
         holder.albumTXV.setText(listOfSongs.get(position).getAlbum());
         holder.songTXV.setText(listOfSongs.get(position).getSongName());
-//        holder.playAndPause.setOnClickListener(new View);
+        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent player = new Intent(view.getContext(),MediaPlayer.class);
+                player.putExtra("author",listOfSongs.get(position).getAuthor());
+                player.putExtra("album",listOfSongs.get(position).getAlbum());
+                player.putExtra("songName",listOfSongs.get(position).getSongName());
+                view.getContext().startActivity(player);
+            }
+        });
+
     }
 
 
@@ -64,11 +76,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             authorTXV = itemView.findViewById(R.id.authorTXV);
             albumTXV = itemView.findViewById(R.id.albumTXV);
             songTXV = itemView.findViewById(R.id.songTXV);
-            playAndPause = itemView.findViewById(R.id.play_pause);
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }
     }
-
-    
-
 }
