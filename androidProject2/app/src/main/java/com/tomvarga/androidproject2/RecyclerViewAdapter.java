@@ -3,11 +3,14 @@ package com.tomvarga.androidproject2;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -55,6 +61,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 view.getContext().startActivity(player);
             }
         });
+        new SendHttpRequestTask(listOfSongs.get(position).getId(),holder.coverSong).execute();
 
     }
 
@@ -69,7 +76,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView authorTXV;
         TextView albumTXV;
         TextView songTXV;
-        FloatingActionButton playAndPause;
+        ImageView coverSong;
         ConstraintLayout parentLayout;
 
         public ViewHolder(View itemView){
@@ -77,7 +84,41 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             authorTXV = itemView.findViewById(R.id.authorTXV);
             albumTXV = itemView.findViewById(R.id.albumTXV);
             songTXV = itemView.findViewById(R.id.songTXV);
+            coverSong = itemView.findViewById(R.id.coverSong);
             parentLayout = itemView.findViewById(R.id.parent_layout);
+        }
+    }
+
+
+    private class SendHttpRequestTask extends AsyncTask<String, Void, Bitmap> {
+
+        String redId;
+        ImageView imageView;
+
+        SendHttpRequestTask(String resId, ImageView imageView) {
+            this.redId =resId;
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            try {
+                URL url = new URL("http://192.168.2.110:8080/getSongCover?id="+redId);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            }catch (Exception e){
+                Log.d(TAG,e.getMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            imageView.setImageBitmap(result); ;
         }
     }
 }
