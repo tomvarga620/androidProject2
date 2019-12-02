@@ -140,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
         myQueue.add(request);
     }
 
+    private RecyclerView.LayoutManager layoutManager;
+
     private void initRecycleView() {
         RecyclerView recyclerView = findViewById(R.id.songRecyclerViewOnMain);
         adapter = new RecyclerViewAdapter(list_songs,this);

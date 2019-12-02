@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,7 +49,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         Log.d(TAG,"onBindViewHolder: called new item is added to list");
         holder.authorTXV.setText(listOfSongs.get(position).getAuthor());
-        holder.albumTXV.setText(listOfSongs.get(position).getAlbum());
+      //  holder.albumTXV.setText(listOfSongs.get(position).getAlbum());
         holder.songTXV.setText(listOfSongs.get(position).getSongName());
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
 
@@ -77,7 +79,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView albumTXV;
         TextView songTXV;
         ImageView coverSong;
-        ConstraintLayout parentLayout;
+        RelativeLayout parentLayout;
 
         public ViewHolder(View itemView){
             super(itemView);
