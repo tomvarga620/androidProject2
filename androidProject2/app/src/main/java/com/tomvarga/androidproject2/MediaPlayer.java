@@ -39,6 +39,7 @@ public class MediaPlayer extends AppCompatActivity {
     TextView songNameTXV;
 
     ImageView imageAlbum;
+    ImageView btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class MediaPlayer extends AppCompatActivity {
         songNameTXV = findViewById(R.id.songTXV);
         songNameTXV.setText(songName);
         imageAlbum = findViewById(R.id.imageAlbum);
+        btnBack = findViewById(R.id.buttonBack);
 
         new SendHttpRequestTask(id,imageAlbum).execute();
 
@@ -104,6 +106,26 @@ public class MediaPlayer extends AppCompatActivity {
                 }
             }
         });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.slide_out_left);
     }
 
     @Override
