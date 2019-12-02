@@ -29,4 +29,15 @@ public class SongService {
             return s.get().getPath();
         }
     }
+
+    public String findImagePath(String id) {
+        Optional<Song> s = songsRepozitory.findById(id);
+        if (s.isEmpty()){
+            return "";
+        }else {
+            System.out.println(s.get().getPath());
+            System.out.println(s.get().getImgPath());
+            return s.get().getImgPath();
+        }
+    }
 }

@@ -12,12 +12,14 @@ public class Song {
     String songName;
     String album;
     String path;
+    String imgPath;
 
-    public Song(String author, String songName, String album, String path) {
+    public Song(String author, String songName, String album, String path, String imgPath) {
         this.author = author;
         this.songName = songName;
         this.album = album;
         this.path = path;
+        this.imgPath = imgPath;
     }
 
     public String getId() {
@@ -60,6 +62,14 @@ public class Song {
         this.path = path;
     }
 
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
     @Override
     public String toString() {
         return "Song{" +
@@ -68,6 +78,7 @@ public class Song {
                 ", songName='" + songName + '\'' +
                 ", album='" + album + '\'' +
                 ", path='" + path + '\'' +
+                ", imgPath='" + imgPath + '\'' +
                 '}';
     }
 }

@@ -31,6 +31,14 @@ public class SongController {
         return (List<Song>) songService.getAllSongs();
     }
 
+    @RequestMapping(value = "/getSongCover", method = RequestMethod.GET)
+    public void getImageAsByteArray(HttpServletResponse response, @RequestParam String id) throws IOException {
+        File image = new File(songService.findImagePath(id));
+        InputStream in = new FileInputStream(image);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        IOUtils.copy(in, response.getOutputStream());
+    }
+
     @RequestMapping(value="streamSong", method=RequestMethod.GET)
     public void getDownload(HttpServletResponse response, @RequestParam String id) {
         File f = new File(songService.findPath(id));
