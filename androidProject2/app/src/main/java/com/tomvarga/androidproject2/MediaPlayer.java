@@ -1,16 +1,23 @@
 package com.tomvarga.androidproject2;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class MediaPlayer extends AppCompatActivity {
 
@@ -30,6 +37,8 @@ public class MediaPlayer extends AppCompatActivity {
     TextView authorTXV;
     TextView albumTXV;
     TextView songNameTXV;
+
+    ImageView imageAlbum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +66,9 @@ public class MediaPlayer extends AppCompatActivity {
         albumTXV.setText(album);
         songNameTXV = findViewById(R.id.songTXV);
         songNameTXV.setText(songName);
+        imageAlbum = findViewById(R.id.imageAlbum);
+
+        new SendHttpRequestTask(id,imageAlbum).execute();
 
         player = findViewById(R.id.playOrPause);
         player.setImageResource(R.drawable.ic_action_play);
@@ -152,6 +164,39 @@ public class MediaPlayer extends AppCompatActivity {
 
             progressDialog.setMessage("Buffering...");
             progressDialog.show();
+        }
+    }
+
+    private class SendHttpRequestTask extends AsyncTask<String, Void, Bitmap> {
+
+        String redId;
+        ImageView imageView;
+
+        SendHttpRequestTask(String resId, ImageView imageView) {
+            this.redId =resId;
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            try {
+                //ipconfig
+                URL url = new URL("http://192.168.0.106:8080/getSongCover?id="+redId);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            }catch (Exception e){
+                Log.d("Exception Message",e.getMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            imageView.setImageBitmap(result);
         }
     }
 }

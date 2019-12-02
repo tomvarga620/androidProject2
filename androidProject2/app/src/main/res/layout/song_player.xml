@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="?attr/bkgcolor"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="?attr/bkgcolor">
 
 
     <TextView
@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="TextView"
-        android:textAlignment="center"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/playOrPause"
@@ -26,7 +25,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="TextView"
-        android:textAlignment="center"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/authorTXV"
         app:layout_constraintStart_toStartOf="@+id/authorTXV"
@@ -38,7 +36,6 @@
         android:layout_height="15dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
-        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@+id/albumTXV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/albumTXV" />
@@ -55,8 +52,15 @@
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/authorTXV"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_playthatshit" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageAlbum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="256dp"
+        tools:srcCompat="@tools:sample/avatars[0]" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
