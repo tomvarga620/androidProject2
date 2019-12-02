@@ -5,13 +5,14 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="100dp"
+    android:layout_marginLeft="10dp"
     android:layout_marginTop="20dp"
     android:padding="10dp">
 
     <ImageView
         android:id="@+id/coverSong"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="116dp"
+        android:layout_height="116dp"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
     <TextView
@@ -23,7 +24,7 @@
         android:layout_toEndOf="@+id/coverSong"
         android:layout_toRightOf="@+id/coverSong"
         android:text="TextView"
-        android:textSize="35sp"
+        android:textSize="33sp"
         android:textColor="?attr/colortext"
         android:textStyle="bold" />
 
@@ -34,7 +35,7 @@
         android:layout_below="@+id/songTXV"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="10dp"
-        android:textSize="25sp"
+        android:textSize="23sp"
         android:textColor="?attr/colortext"
         android:layout_toEndOf="@+id/coverSong"
         android:layout_toRightOf="@+id/coverSong"
