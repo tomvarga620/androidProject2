@@ -21,8 +21,8 @@ public class SongService {
         return songsRepozitory.findAll();
     }
 
-    public String findPath(String auth, String alb, String sngName) {
-        Optional<Song> s = songsRepozitory.findByAuthorAndAlbumAndSongName(auth,alb,sngName);
+    public String findPath(String id) {
+        Optional<Song> s = songsRepozitory.findById(id);
         if (s.isEmpty()){
             return "";
         }else {

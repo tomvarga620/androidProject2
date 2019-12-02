@@ -10,7 +10,6 @@ import java.util.Optional;
 @Repository
 public interface SongsRepozitory extends MongoRepository<Song, String> {
 
-    @Query(value = "{ 'author' : ?0, 'songName' : ?2, 'album' : ?1 }")
-    public Optional<Song> findByAuthorAndAlbumAndSongName(String author, String album, String songName);
+    public Optional<Song> findById(String id);
 
 }
