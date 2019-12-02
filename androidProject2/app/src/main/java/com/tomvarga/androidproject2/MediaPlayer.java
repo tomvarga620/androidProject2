@@ -20,6 +20,8 @@ public class MediaPlayer extends AppCompatActivity {
     private android.media.MediaPlayer mediaPlayer;
     private ProgressDialog progressDialog;
 
+    SharedPrefs modSharedPrefs;
+
     String author;
     String album;
     String songName;
@@ -31,6 +33,14 @@ public class MediaPlayer extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        modSharedPrefs = new SharedPrefs(this);
+        if (modSharedPrefs.loadDarkModeState() == true) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.song_player);
 
@@ -49,6 +59,7 @@ public class MediaPlayer extends AppCompatActivity {
         songNameTXV.setText(songName);
 
         player = findViewById(R.id.playOrPause);
+        player.setImageResource(R.drawable.ic_action_play);
         mediaPlayer = new android.media.MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 //        mediaPlayer.setAudioAttributes(AudioManager.STREAM_MUSIC);

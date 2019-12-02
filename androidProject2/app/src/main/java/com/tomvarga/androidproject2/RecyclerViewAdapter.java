@@ -103,7 +103,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         protected Bitmap doInBackground(String... params) {
             try {
-                URL url = new URL("http://192.168.2.110:8080/getSongCover?id="+redId);
+                //ipconfig
+                URL url = new URL("http://192.168.0.106:8080/getSongCover?id="+redId);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();

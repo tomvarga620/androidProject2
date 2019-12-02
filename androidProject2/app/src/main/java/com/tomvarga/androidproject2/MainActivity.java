@@ -60,15 +60,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initRecycleView();
-        Button getRequest = findViewById(R.id.getReuqest);
+       // Button getRequest = findViewById(R.id.getReuqest);
         myQueue = Volley.newRequestQueue(this);
 
-        getRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                jsonParse();
-            }
-        });
+        jsonParse();
+
 
         bottomNav = findViewById(R.id.bottom_navigation);
         Menu menu = bottomNav.getMenu();
@@ -108,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void jsonParse() {
 
-        String url = "http://192.168.2.110:8080/getAllSongs";
+        String url = "http://192.168.0.106:8080/getAllSongs";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {

@@ -6,5 +6,7 @@
         <attr name="coloriconchecked" format="color" />
         <attr name="colorbar" format="color" />
         <attr name="bkgcolor" format="reference" />
+        <attr name="btnplaycolor" format="color"/>
+        <attr name="btnplaybkgcolor" format="color"/>
     </declare-styleable>
 </resources>
