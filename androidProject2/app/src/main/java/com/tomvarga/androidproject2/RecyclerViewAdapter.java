@@ -48,6 +48,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 Intent player = new Intent(view.getContext(),MediaPlayer.class);
+                player.putExtra("id",listOfSongs.get(position).getId());
                 player.putExtra("author",listOfSongs.get(position).getAuthor());
                 player.putExtra("album",listOfSongs.get(position).getAlbum());
                 player.putExtra("songName",listOfSongs.get(position).getSongName());

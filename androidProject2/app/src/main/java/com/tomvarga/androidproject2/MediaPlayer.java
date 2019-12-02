@@ -23,6 +23,7 @@ public class MediaPlayer extends AppCompatActivity {
     String author;
     String album;
     String songName;
+    String id;
 
     TextView authorTXV;
     TextView albumTXV;
@@ -35,6 +36,7 @@ public class MediaPlayer extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
 
+        id = b.getString("id");
         author = b.getString("author");
         album = b.getString("album");
         songName = b.getString("songName");
@@ -58,7 +60,7 @@ public class MediaPlayer extends AppCompatActivity {
                     player.setImageResource(R.drawable.ic_action_pause);
 
                     if (initialStage) {
-                        new Player().execute("http://192.168.2.110:8080/download?auth="+author+"&alb="+album+"&name="+songName);
+                        new Player().execute("http://192.168.2.110:8080/streamSong?id="+id);
 //                        new Player().execute("https://www.ssaurel.com/tmp/mymusic.mp3");
 
                     } else {
