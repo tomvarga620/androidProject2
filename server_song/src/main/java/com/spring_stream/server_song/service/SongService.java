@@ -17,6 +17,10 @@ public class SongService {
         return songsRepozitory.save(song);
     }
 
+    public Iterable<Song> insertSongs(Iterable<Song> songs) {
+        return songsRepozitory.saveAll(songs);
+    }
+
     public Iterable<Song> getAllSongs() {
         return songsRepozitory.findAll();
     }
@@ -35,8 +39,6 @@ public class SongService {
         if (s.isEmpty()){
             return "";
         }else {
-            System.out.println(s.get().getPath());
-            System.out.println(s.get().getImgPath());
             return s.get().getImgPath();
         }
     }

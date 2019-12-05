@@ -1,6 +1,8 @@
 package com.spring_stream.server_song.controller;
 
+import com.spring_stream.server_song.model.Account;
 import com.spring_stream.server_song.model.Song;
+import com.spring_stream.server_song.service.AccountService;
 import com.spring_stream.server_song.service.SongService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,13 @@ public class SongController {
     public String insert(@RequestBody Song song) {
         Song insSong = songService.insert(song);
         return insSong.toString();
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @PostMapping(path = "/insertSongs", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String insertMultiple(@RequestBody Iterable<Song> songs) {
+        Iterable<Song> allSongs = songService.insertSongs(songs);
+        return allSongs.toString();
     }
 
     @GetMapping(value = "/getAllSongs",produces = MediaType.APPLICATION_JSON_VALUE)
