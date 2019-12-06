@@ -12,4 +12,5 @@ public interface AccountRepozitory extends MongoRepository<Account, String> {
     public Optional<Account> findAccountByEmail(String email);
     public Optional<Account> findAccountByUsername(String userame);
     public Optional<Account> findAccountByEmailAndPassword(String email, String password);
+
 }
