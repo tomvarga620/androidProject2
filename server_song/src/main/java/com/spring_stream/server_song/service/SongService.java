@@ -1,5 +1,6 @@
 package com.spring_stream.server_song.service;
 
+import com.spring_stream.server_song.model.Album;
 import com.spring_stream.server_song.model.Song;
 import com.spring_stream.server_song.repozitory.SongsRepozitory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,21 +26,12 @@ public class SongService {
         return songsRepozitory.findAll();
     }
 
-    public String findPath(String id) {
+    public String findPath(Long id) {
         Optional<Song> s = songsRepozitory.findById(id);
         if (s.isEmpty()){
             return "";
         }else {
             return s.get().getPath();
-        }
-    }
-
-    public String findImagePath(String id) {
-        Optional<Song> s = songsRepozitory.findById(id);
-        if (s.isEmpty()){
-            return "";
-        }else {
-            return s.get().getImgPath();
         }
     }
 }

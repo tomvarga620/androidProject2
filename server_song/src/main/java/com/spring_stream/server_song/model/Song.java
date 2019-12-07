@@ -1,32 +1,41 @@
 package com.spring_stream.server_song.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.*;
 
-@Document
+import javax.annotation.processing.Generated;
+
+@Entity
 public class Song {
 
     @Id
-    String id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    Long id;
+
     String author;
     String songName;
-    String album;
-    String path;
-    String imgPath;
 
-    public Song(String author, String songName, String album, String path, String imgPath) {
+    @ManyToOne
+    @JoinColumn
+    Album album;
+
+    String genre;
+    String path;
+
+    public Song(String author, String songName, Album album, String genre, String path) {
         this.author = author;
         this.songName = songName;
         this.album = album;
+        this.genre = genre;
         this.path = path;
-        this.imgPath = imgPath;
     }
 
-    public String getId() {
+    public Song(){}
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,12 +55,20 @@ public class Song {
         this.songName = songName;
     }
 
-    public String getAlbum() {
+    public Album getAlbum() {
         return album;
     }
 
-    public void setAlbum(String album) {
+    public void setAlbum(Album album) {
         this.album = album;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public String getPath() {
@@ -62,23 +79,4 @@ public class Song {
         this.path = path;
     }
 
-    public String getImgPath() {
-        return imgPath;
-    }
-
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
-    }
-
-    @Override
-    public String toString() {
-        return "Song{" +
-                "id='" + id + '\'' +
-                ", author='" + author + '\'' +
-                ", songName='" + songName + '\'' +
-                ", album='" + album + '\'' +
-                ", path='" + path + '\'' +
-                ", imgPath='" + imgPath + '\'' +
-                '}';
-    }
 }

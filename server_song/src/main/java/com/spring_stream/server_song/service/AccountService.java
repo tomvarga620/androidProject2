@@ -35,8 +35,8 @@ public class AccountService {
         return false;
     }
 
-    public boolean login(String email, String password) {
-        Optional<Account> loginAccount = accountRepozitory.findAccountByEmailAndPassword(email,password);
+    public boolean login(String username, String password) {
+        Optional<Account> loginAccount = accountRepozitory.findAccountByUsernameAndPassword(username,password);
 
         if (loginAccount.isEmpty()){
             return false;

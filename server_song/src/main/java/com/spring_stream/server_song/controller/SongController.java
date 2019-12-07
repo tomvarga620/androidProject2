@@ -1,13 +1,14 @@
 package com.spring_stream.server_song.controller;
 
-import com.spring_stream.server_song.model.Account;
+import com.spring_stream.security.Credencials;
+import com.spring_stream.security.PrimitiveSecurity;
 import com.spring_stream.server_song.model.Song;
-import com.spring_stream.server_song.service.AccountService;
 import com.spring_stream.server_song.service.SongService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,6 +21,8 @@ public class SongController {
 
     @Autowired
     private SongService songService;
+
+    private PrimitiveSecurity primitiveSecurity = PrimitiveSecurity.getInstance();
 
     @ResponseStatus(value = HttpStatus.OK)
     @PostMapping(path = "/insertSong", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -40,45 +43,29 @@ public class SongController {
         return (List<Song>) songService.getAllSongs();
     }
 
-    @RequestMapping(value = "/getSongCover", method = RequestMethod.GET)
-    public void getImageAsByteArray(HttpServletResponse response, @RequestParam String id) throws IOException {
-        File image = new File(songService.findImagePath(id));
-        InputStream in = new FileInputStream(image);
-        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-        IOUtils.copy(in, response.getOutputStream());
-    }
-
     @RequestMapping(value="streamSong", method=RequestMethod.GET)
-    public void getDownload(HttpServletResponse response, @RequestParam String id) {
-        File f = new File(songService.findPath(id));
-        InputStream targetStream = null;
-        try {
-            targetStream = new FileInputStream(f);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        // Set the content type and attachment header.
-        String contentType = response.getContentType();
+    public void getDownload(HttpServletResponse response, @RequestParam Long id, @RequestBody Credencials credencials) {
 
-        //audio/mpeg
-        response.addHeader("Content-Disposition:", "attachment;filename=\"" + f.getName() + "\"");
-        response.setContentType(contentType);
-
-        // Copy the stream to the response's output stream.
-        try {
-            IOUtils.copy(targetStream, response.getOutputStream());
-            //General IO stream manipulation utilities.
-            //This class provides static utility methods for input/output operations.
-            //copy - these methods copy all the data from one stream to another
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            response.flushBuffer();
-            //Forces any content in the buffer to be written to the client
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (primitiveSecurity.accessTokens.get(credencials.getusername()).equals(credencials.getToken())) {
+            File f = new File(songService.findPath(id));
+            InputStream targetStream = null;
+            try { targetStream = new FileInputStream(f); }
+            catch (FileNotFoundException e) { e.printStackTrace(); }
+            // Set the content type and attachment header.
+            String contentType = response.getContentType();
+            response.addHeader("Content-Disposition:", "attachment;filename=\"" + f.getName() + "\"");
+            response.setContentType(contentType);
+            // Copy the stream to the response's output stream.
+            try { IOUtils.copy(targetStream, response.getOutputStream());
+                //General IO stream manipulation utilities.
+                //This class provides static utility methods for input/output operations.
+                //copy - these methods copy all the data from one stream to another
+            } catch (IOException e) { e.printStackTrace(); }
+            try { response.flushBuffer();
+                //Forces any content in the buffer to be written to the client
+            } catch (IOException e) { e.printStackTrace(); }
+        }else {
+//            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
     }
 

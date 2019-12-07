@@ -1,13 +1,17 @@
 package com.spring_stream.server_song.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Id;
 
-@Document
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+@Entity
 public class Account {
 
     @Id
-    String id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    Long id;
     String email;   //ohandlovat v jave nech je to unique
     String password;
     String username;
@@ -20,11 +24,13 @@ public class Account {
         this.typeAccount = typeAccount;
     }
 
-    public String getId() {
+    public Account() {}
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -60,14 +66,4 @@ public class Account {
         this.typeAccount = typeAccount;
     }
 
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id='" + id + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                ", typeAccount='" + typeAccount + '\'' +
-                '}';
-    }
 }

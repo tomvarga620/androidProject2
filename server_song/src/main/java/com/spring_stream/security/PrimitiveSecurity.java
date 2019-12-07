@@ -29,10 +29,10 @@ public class PrimitiveSecurity {
         return base64Encoder.encodeToString(randomBytes);
     }
 
-    public String newLogged(String email) {
+    public String newLogged(String username) {
 
         String newToken = generateNewToken();
-        accessTokens.put(email,newToken);
+        accessTokens.put(username,newToken);
 
         return newToken;
     }
