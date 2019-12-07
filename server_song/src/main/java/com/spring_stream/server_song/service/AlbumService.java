@@ -22,4 +22,25 @@ public class AlbumService {
         }
     }
 
+    public Album getAlbumByName(String albumName) {
+        Optional<Album> send = albumRepozitory.findAlbumByAlbumName(albumName);
+        return send.get();
+    }
+
+    public Iterable<Album> getAllAlbums() {
+        return albumRepozitory.findAll();
+    }
+
+    public Album insertAlbum(Album album) {
+        return albumRepozitory.save(album);
+    }
+
+    public boolean needToCreatedAlbum(String albumName) {
+        Optional<Album> isExist = albumRepozitory.findAlbumByAlbumName(albumName);
+        if (isExist.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
 }

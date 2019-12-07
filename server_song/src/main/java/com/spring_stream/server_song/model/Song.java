@@ -1,5 +1,7 @@
 package com.spring_stream.server_song.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 import javax.annotation.processing.Generated;
@@ -16,6 +18,7 @@ public class Song {
 
     @ManyToOne
     @JoinColumn
+    @JsonBackReference
     Album album;
 
     String genre;
@@ -79,4 +82,15 @@ public class Song {
         this.path = path;
     }
 
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", author='" + author + '\'' +
+                ", songName='" + songName + '\'' +
+                ", album=" + album +
+                ", genre='" + genre + '\'' +
+                ", path='" + path + '\'' +
+                '}';
+    }
 }

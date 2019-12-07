@@ -66,4 +66,14 @@ public class Account {
         this.typeAccount = typeAccount;
     }
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", typeAccount=" + typeAccount +
+                '}';
+    }
 }
