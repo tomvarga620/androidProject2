@@ -106,7 +106,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         protected Bitmap doInBackground(String... params) {
             try {
                 //ipconfig
-                URL url = new URL("http://192.168.0.106:8080/getSongCover?id="+redId);
+                URL url = new URL("http://192.168.43.89:8080/getSongCover?id="+redId);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();
@@ -121,7 +121,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         protected void onPostExecute(Bitmap result) {
-            imageView.setImageBitmap(result); ;
+            imageView.setImageBitmap(result);
         }
     }
 }

@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void jsonParse() {
 
-        String url = "http://192.168.0.106:8080/getAllSongs";
+        String url = "http://192.168.43.89:8080/getAllSongs";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
