@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
+import java.util.function.Consumer;
 
 @RestController
 public class SongController {
@@ -46,6 +47,17 @@ public class SongController {
     @ResponseStatus(value = HttpStatus.OK)
     @PostMapping(path = "/insertSongs", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String insertMultiple(@RequestBody Iterable<Song> songs) {
+
+       for (Song song: songs) {
+           Album album = new Album();
+           if (albumService.needToCreatedAlbum(song.getAlbum().getAlbumName())){
+               album = albumService.insertAlbum(song.getAlbum());
+           }else {
+               album = albumService.getAlbumByName(song.getAlbum().getAlbumName());
+           }
+           song.setAlbum(new Album(album.getId()));
+       }
+
         Iterable<Song> allSongs = songService.insertSongs(songs);
         return allSongs.toString();
     }

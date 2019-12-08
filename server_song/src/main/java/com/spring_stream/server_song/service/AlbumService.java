@@ -27,6 +27,10 @@ public class AlbumService {
         return send.get();
     }
 
+    public Album getAlbum(Long id) {
+        return albumRepozitory.findAlbumById(id).get();
+    }
+
     public Iterable<Album> getAllAlbums() {
         return albumRepozitory.findAll();
     }

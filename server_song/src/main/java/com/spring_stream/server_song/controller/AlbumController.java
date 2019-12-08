@@ -29,6 +29,11 @@ public class AlbumController {
         return albumService.insertAlbum(album);
     }
 
+    @GetMapping(value = "/getAlbum", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Album getCertainAlbum(@RequestParam Long id) {
+        return  albumService.getAlbum(id);
+    }
+
     @GetMapping(value = "/getAllAlbums", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Album> getAllDistinctAlbum() {
         return (List<Album>) albumService.getAllAlbums();
