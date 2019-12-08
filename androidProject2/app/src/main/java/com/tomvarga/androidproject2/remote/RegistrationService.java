@@ -5,7 +5,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface UserService {
+public interface RegistrationService {
 
     @GET("registration/{email}/{password}/{username}/{typeAccount}")
     Call registration(@Path("email") String email, @Path("password") String password,
