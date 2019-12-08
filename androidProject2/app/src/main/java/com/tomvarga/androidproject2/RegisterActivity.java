@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.tomvarga.androidproject2.model.ResObj;
-import com.tomvarga.androidproject2.remote.RegistrationService;
+import com.google.gson.JsonObject;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,7 +21,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText username;
     EditText email;
     EditText password;
-    RegistrationService regService;
     Button btnSubmit;
 
     @Override
@@ -34,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.regPassword);
         btnSubmit = findViewById(R.id.regBtnSubmit);
 
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,34 +41,29 @@ public class RegisterActivity extends AppCompatActivity {
                 String mail = email.getText().toString();
                 String pass = password.getText().toString();
 
-                regRegistration(name,mail,pass,1);
+                regUser(name,mail,pass);
 
             }
         });
     }
 
-    private void regRegistration
-            (final String username, final String email,
-             final String password, final int typeAccount){
-
-        Call call = regService.registration(username,email,password,typeAccount);
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if(response.isSuccessful()){
-                    ResObj resObj = (ResObj) response.body();
-                    if(resObj.getMessage().equals("true")){
-                        Intent i = new Intent(RegisterActivity.this,LoginActivity.class);
-                        startActivity(i);
-                    }
+    public void regUser(String name,String mail,String pass){
+            Call<ResponseBody> call = RetroFitClient
+                    .getInstance()
+                    .getRegApi()
+                    .regRequest(mail,pass,name,1);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    System.out.println(response.code());
+                    //Log.i("RESULT",rslt);
                 }
-            }
 
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.wtf("WTF","Request not works");
-            }
-        });
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.wtf("ERROR","Not Works");
+                }
+            });
     }
 
 }

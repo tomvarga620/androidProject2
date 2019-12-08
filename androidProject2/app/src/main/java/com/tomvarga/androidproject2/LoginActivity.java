@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.tomvarga.androidproject2.model.ResObj;
-import com.tomvarga.androidproject2.remote.LoginService;
+import java.util.HashMap;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,12 +23,14 @@ public class LoginActivity extends AppCompatActivity {
     EditText username;
     EditText password;
     Button btnSubmit;
-    LoginService loginService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        username = (EditText) findViewById(R.id.loginUsername);
+        password = (EditText) findViewById(R.id.loginPassword);
 
         signUp = findViewById(R.id.signUp);
         signUp.setOnClickListener(new View.OnClickListener() {
@@ -43,31 +45,34 @@ public class LoginActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String name = username.getText().toString();
+                String pass = password.getText().toString();
+                System.out.println(pass+"   "+name);
+                loginUser(name,pass);
             }
         });
     }
 
-    private void regRegistration
-            (final String username, final String email,
-             final String password, final int typeAccount){
+    public void loginUser(String name,String pass){
 
-        Call call = loginService.registration(username,email);
-        call.enqueue(new Callback() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("username", name);
+        map.put("password",pass);
+
+        Call<ResponseBody> call = RetroFitClient
+                .getInstance()
+                .getLoginApi()
+                .logRequest(map);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call call, Response response) {
-                if(response.isSuccessful()){
-                    ResObj resObj = (ResObj) response.body();
-                    if(resObj.getMessage().equals("true")){
-                        Intent i = new Intent(LoginActivity.this,MainActivity.class);
-                        startActivity(i);
-                    }
-                }
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                System.out.println(response.code());
+                //Log.i("RESULT",rslt);
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.wtf("WTF","Request not works");
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.wtf("ERROR","Not Works");
             }
         });
     }
