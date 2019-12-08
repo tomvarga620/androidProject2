@@ -55,8 +55,8 @@ public class AccountController {
 
     @PostMapping(path = "/logout")
     public ResponseEntity Logout(@RequestBody Credencials credencials) {
-
-        if (primitiveSecurity.accessTokens.get(credencials.getusername()).equals(credencials.getToken())) {
+        System.out.println("username: "+credencials.getusername());
+        if (primitiveSecurity.accessTokens.containsKey(credencials.getusername()) && primitiveSecurity.accessTokens.get(credencials.getusername()).equals(credencials.getToken())) {
             primitiveSecurity.accessTokens.remove(credencials.getusername());
             System.out.println(credencials.getusername()+" : Logout successful");
             return new ResponseEntity (HttpStatus.OK);
