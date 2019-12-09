@@ -62,6 +62,11 @@ public class SongController {
         return allSongs.toString();
     }
 
+    @GetMapping(value = "/getSongsFromAlbum",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Song> findSongsFromAlbum(@RequestParam Long IdAlbum) {
+        return songService.getAllSongsFromAlbum(IdAlbum);
+    }
+
     @GetMapping(value = "/getAllSongs",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Song> findAll() {
         return (List<Song>) songService.getAllSongs();
