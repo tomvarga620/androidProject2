@@ -67,8 +67,12 @@ public class SongController {
         return (List<Song>) songService.getAllSongs();
     }
 
-    @RequestMapping(value="streamSong", method=RequestMethod.GET)
+    @GetMapping(value="/streamSong")
     public ResponseEntity getDownload(HttpServletResponse response, @RequestParam Long id, @RequestBody Credencials credencials) {
+
+        if (primitiveSecurity.accessTokens.isEmpty()){
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
 
         if (primitiveSecurity.accessTokens.get(credencials.getusername()).equals(credencials.getToken())) {
             File f = new File(songService.findPath(id));
