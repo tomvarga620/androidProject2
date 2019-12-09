@@ -57,22 +57,19 @@ public class LoginActivity extends AppCompatActivity {
 
         LoginData data = new LoginData(name,pass);
 
-        Call<ResponseBody> call = RetroFitClient
+        Call<String> call = RetroFitClient
                 .getInstance()
                 .getLoginApi()
                 .logRequest(data);
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                System.out.println(response.code());
-                Intent i = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(i);
-                //Log.i("RESULT",rslt);
+            public void onResponse(Call<String> call, Response<String> response) {
+                System.out.println("token"+response.body());
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.wtf("ERROR","Not Works");
+            public void onFailure(Call<String> call, Throwable t) {
+
             }
         });
     }
