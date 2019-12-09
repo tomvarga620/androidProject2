@@ -51,11 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void regUser(String name,String mail,String pass){
 
-            RegistrationData regData = new RegistrationData();
-            regData.setEmail(mail);
-            regData.setPassword(pass);
-            regData.setUsername(name);
-            regData.setTypeAccount(1);
+            RegistrationData regData = new RegistrationData(mail,pass,name,1);
 
             Call<ResponseBody> call = RetroFitClient
                     .getInstance()
@@ -66,6 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     System.out.println(response.code());
                     Intent i = new Intent(RegisterActivity.this,LoginActivity.class);
+                    startActivity(i);
                 }
 
                 @Override

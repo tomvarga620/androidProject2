@@ -55,18 +55,18 @@ public class LoginActivity extends AppCompatActivity {
 
     public void loginUser(String name,String pass){
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put("username", name);
-        map.put("password",pass);
+        LoginData data = new LoginData(name,pass);
 
         Call<ResponseBody> call = RetroFitClient
                 .getInstance()
                 .getLoginApi()
-                .logRequest(map);
+                .logRequest(data);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 System.out.println(response.code());
+                Intent i = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(i);
                 //Log.i("RESULT",rslt);
             }
 

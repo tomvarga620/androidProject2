@@ -6,6 +6,13 @@ public class RegistrationData {
     private String username;
     private int typeAccount;
 
+    public RegistrationData(String email, String password, String username, int typeAccount) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.typeAccount = typeAccount;
+    }
+
     public String getEmail() {
         return email;
     }

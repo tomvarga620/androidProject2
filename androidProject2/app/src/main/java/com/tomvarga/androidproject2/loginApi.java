@@ -16,6 +16,6 @@ import retrofit2.http.Query;
 public interface loginApi {
 
     @Headers("Content-Type:application/json")
-    @GET("login")
-    Call<ResponseBody> logRequest(@Body HashMap<String, String> data);
+    @POST("login")
+    Call<ResponseBody> logRequest(@Body LoginData data);
 }
