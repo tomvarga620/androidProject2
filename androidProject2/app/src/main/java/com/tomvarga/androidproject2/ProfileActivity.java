@@ -4,17 +4,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -22,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
     SharedPrefs modSharedPrefs;
 
     TextView userText;
+    TextView logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +46,14 @@ public class ProfileActivity extends AppCompatActivity {
 
         userText = findViewById(R.id.userText);
         userText.setText(getUserName());
+
+        logout = findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutUser(getUserName(),getUserToken());
+            }
+        });
 
         final Switch switchDarkMode = findViewById(R.id.switchDarkMode);
         if(modSharedPrefs.loadDarkModeState() == true){
@@ -105,5 +122,31 @@ public class ProfileActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("user", MODE_PRIVATE);
         String username = prefs.getString("username",null);
         return username;
+    }
+
+    private void logoutUser(String name,String token){
+
+        Call<ResponseBody> call = RetroFitClient
+                .getInstance()
+                .getLogoutApi()
+                .logoutRequest(name,token);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    Intent i = new Intent(ProfileActivity.this,LoginActivity.class);
+                    SharedPreferences.Editor editor = getSharedPreferences("clear_cache", Context.MODE_PRIVATE).edit();
+                    editor.clear();
+                    editor.commit();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
     }
 }

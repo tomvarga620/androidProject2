@@ -1,6 +1,7 @@
 package com.tomvarga.androidproject2;
 
 import com.tomvarga.androidproject2.Req.loginApi;
+import com.tomvarga.androidproject2.Req.logoutApi;
 import com.tomvarga.androidproject2.Req.regApi;
 
 import okhttp3.OkHttpClient;
@@ -43,6 +44,10 @@ public class RetroFitClient {
 
     public loginApi getLoginApi(){
         return retrofit.create(loginApi.class);
+    }
+
+    public logoutApi getLogoutApi(){
+        return retrofit.create(logoutApi.class);
     }
 
 }
