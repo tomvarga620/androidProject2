@@ -15,7 +15,8 @@
         android:inputType="textPersonName"
         android:hint="Enter username"
         android:background="@drawable/custom_textedit"
-        android:textColorHint="#FFFFFF"
+        android:textColorHint="#999999"
+        android:textColor="#666666"
         tools:layout_editor_absoluteX="98dp"
         tools:layout_editor_absoluteY="232dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -30,7 +31,8 @@
         android:ems="10"
         android:inputType="textPassword"
         android:hint="Enter password"
-        android:textColorHint="#FFFFFF"
+        android:textColorHint="#999999"
+        android:textColor="#666666"
         android:background="@drawable/custom_textedit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -44,6 +46,7 @@
         android:layout_width="213dp"
         android:layout_height="wrap_content"
         android:text="Submit"
+        android:background="@drawable/roundbtn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -61,7 +64,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.72" />
+        app:layout_constraintVertical_bias="0.74" />
 
     <ImageView
         android:id="@+id/imageView"
