@@ -11,6 +11,8 @@ import android.widget.EditText;
 
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,15 +50,22 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void regUser(String name,String mail,String pass){
+
+            RegistrationData regData = new RegistrationData();
+            regData.setEmail(mail);
+            regData.setPassword(pass);
+            regData.setUsername(name);
+            regData.setTypeAccount(1);
+
             Call<ResponseBody> call = RetroFitClient
                     .getInstance()
                     .getRegApi()
-                    .regRequest(mail,pass,name,1);
+                    .regRequest(regData);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     System.out.println(response.code());
-                    //Log.i("RESULT",rslt);
+                    Intent i = new Intent(RegisterActivity.this,LoginActivity.class);
                 }
 
                 @Override

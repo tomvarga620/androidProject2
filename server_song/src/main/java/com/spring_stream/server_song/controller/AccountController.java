@@ -21,6 +21,8 @@ public class AccountController {
 
     @PostMapping(path = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> registration(@RequestBody Account account) {
+        System.out.println("login");
+        System.out.println(account.toString());
 
         if (accountService.isEmailAlreadyUsed(account.getEmail())){
             return new ResponseEntity<String>(
