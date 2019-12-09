@@ -6,6 +6,7 @@ import com.spring_stream.server_song.repozitory.SongsRepozitory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,6 +14,10 @@ public class SongService {
 
     @Autowired
     private SongsRepozitory songsRepozitory;
+
+    public List<Song> getAllSongsFromAlbum(Long id) {
+        return (List<Song>) songsRepozitory.findAllByAlbum_Id(id);
+    }
 
     public Song insert(Song song) {
         return songsRepozitory.save(song);

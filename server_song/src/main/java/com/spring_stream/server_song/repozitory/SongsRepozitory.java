@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface SongsRepozitory extends JpaRepository<Song, Long> {
 
     public Optional<Song> findById(Long id);
+    public Iterable<Song> findAllByAlbum_Id(Long Id);
 }

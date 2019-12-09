@@ -1,6 +1,9 @@
 package com.spring_stream.server_song.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,6 +22,9 @@ public class Album {
 
     @OneToMany(mappedBy = "album",cascade = {CascadeType.ALL})
     @JsonManagedReference//cause infinity json
+    //tie dve dole su nato aby v albume ukazovalo len id songov aby nebolo veda dat
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     List<Song> songs = new ArrayList<>();
 
     public Album(String albumName, String albumCover) {
