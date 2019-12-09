@@ -9,9 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.gson.JsonObject;
-
-import org.json.JSONObject;
+import com.tomvarga.androidproject2.UserData.RegistrationData;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

@@ -1,4 +1,4 @@
-package com.tomvarga.androidproject2;
+package com.tomvarga.androidproject2.UserData;
 
 public class RegistrationData {
     private String email;

@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.HashMap;
+import com.tomvarga.androidproject2.UserData.LoginData;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

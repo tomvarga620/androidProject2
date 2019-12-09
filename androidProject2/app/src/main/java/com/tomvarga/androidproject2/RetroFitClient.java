@@ -1,5 +1,8 @@
 package com.tomvarga.androidproject2;
 
+import com.tomvarga.androidproject2.Req.loginApi;
+import com.tomvarga.androidproject2.Req.regApi;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
