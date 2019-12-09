@@ -40,7 +40,7 @@ public class AccountController {
         }
     }
 
-    @GetMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+    @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> Login(@RequestBody Account account) {
         if (accountService.login(account.getUsername(),account.getPassword())) {
             String token = primitiveSecurity.newLogged(account.getUsername());
