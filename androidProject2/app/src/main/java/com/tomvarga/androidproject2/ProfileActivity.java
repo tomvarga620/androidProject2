@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -85,5 +86,11 @@ public class ProfileActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(0,R.anim.slide_out_left);
+    }
+
+    private String getUserToken(){
+        SharedPreferences prefs = getSharedPreferences("user", MODE_PRIVATE);
+        String token = prefs.getString("token",null);
+        return token;
     }
 }

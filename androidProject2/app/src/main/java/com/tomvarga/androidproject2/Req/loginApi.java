@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 
 public interface loginApi {
 
-
+    @Headers("Content-Type:application/json")
     @POST("login")
-    Call<String> logRequest(@Body LoginData data);
+    Call<ResponseBody> logRequest(@Body LoginData data);
 }

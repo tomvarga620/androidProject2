@@ -3,6 +3,7 @@ package com.tomvarga.androidproject2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -53,24 +54,54 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void loginUser(String name,String pass){
+    public void loginUser(final String name,String pass){
 
         LoginData data = new LoginData(name,pass);
 
-        Call<String> call = RetroFitClient
+        Call<ResponseBody> call = RetroFitClient
                 .getInstance()
                 .getLoginApi()
                 .logRequest(data);
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                System.out.println("token"+response.body());
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+
+                    String token = response.body().toString();
+
+                    setTokenToPrefs(token);
+                    setUsernameToPrefs(name);
+
+                    Intent i = new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
             }
         });
     }
+
+    private void setTokenToPrefs(String token){
+        SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
+        editor.putString("token", token);
+        editor.apply();
+    }
+
+    private void setUsernameToPrefs(String name){
+        SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
+        editor.putString("username", name);
+        editor.apply();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.slide_out_left);
+    }
+
+
 }

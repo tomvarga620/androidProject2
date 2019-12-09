@@ -61,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
                     System.out.println(response.code());
                     Intent i = new Intent(RegisterActivity.this,LoginActivity.class);
                     startActivity(i);
+                    finish();
                 }
 
                 @Override
@@ -69,6 +70,13 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.slide_out_left);
+    }
+
 
 }
 

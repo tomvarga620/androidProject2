@@ -34,6 +34,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.586" />
 
+
+    <Button
+        android:id="@+id/loginBtnSubmit"
+        android:layout_width="213dp"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.68" />
+
     <TextView
         android:id="@+id/signUp"
         android:layout_width="wrap_content"
@@ -44,21 +56,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.640" />
-
-
-    <Button
-        android:id="@+id/loginBtnSubmit"
-        android:layout_width="213dp"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        tools:layout_editor_absoluteX="156dp"
-        tools:layout_editor_absoluteY="496dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.728"/>
+        app:layout_constraintVertical_bias="0.72" />
 
     <ImageView
         android:id="@+id/imageView"
