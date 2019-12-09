@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -19,6 +20,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
     SharedPrefs modSharedPrefs;
+
+    TextView userText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         modSharedPrefs = new SharedPrefs(this);
@@ -30,6 +34,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        userText = findViewById(R.id.userText);
+        userText.setText(getUserName());
 
         final Switch switchDarkMode = findViewById(R.id.switchDarkMode);
         if(modSharedPrefs.loadDarkModeState() == true){
@@ -92,5 +99,11 @@ public class ProfileActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("user", MODE_PRIVATE);
         String token = prefs.getString("token",null);
         return token;
+    }
+
+    private String getUserName(){
+        SharedPreferences prefs = getSharedPreferences("user", MODE_PRIVATE);
+        String username = prefs.getString("username",null);
+        return username;
     }
 }

@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.tomvarga.androidproject2.UserData.LoginData;
 
+import java.io.IOException;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,7 +69,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
 
-                    String token = response.body().toString();
+                    String token = null;
+                    try {
+                        token = response.body().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                     setTokenToPrefs(token);
                     setUsernameToPrefs(name);
