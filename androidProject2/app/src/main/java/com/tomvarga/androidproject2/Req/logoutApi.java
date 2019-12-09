@@ -14,7 +14,7 @@ public interface logoutApi {
 
     @FormUrlEncoded
     @POST("logout")
-    Call<ResponseBody> logoutRequest(
+    Call<Void> logoutRequest(
             @Field("username") String username,
             @Field("token") String token
     );

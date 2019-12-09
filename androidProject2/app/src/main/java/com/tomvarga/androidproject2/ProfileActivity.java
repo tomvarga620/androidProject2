@@ -126,14 +126,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void logoutUser(String name,String token){
 
-        Call<ResponseBody> call = RetroFitClient
+        Call<Void> call = RetroFitClient
                 .getInstance()
                 .getLogoutApi()
                 .logoutRequest(name,token);
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()){
                     Intent i = new Intent(ProfileActivity.this,LoginActivity.class);
                     SharedPreferences.Editor editor = getSharedPreferences("clear_cache", Context.MODE_PRIVATE).edit();
@@ -143,7 +143,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
 
             }
         });

@@ -37,12 +37,31 @@ public class RegisterActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = username.getText().toString();
-                String mail = email.getText().toString();
-                String pass = password.getText().toString();
 
-                regUser(name,mail,pass);
+                if(username.getText().toString().equals("")){
+                    username.setError("Please enter username");
+                    username.requestFocus();
+                }
 
+                if(email.getText().toString().trim().equals("")){
+                    email.setError("Please enter e-mail");
+                    email.requestFocus();
+                }
+
+                if(password.getText().toString().trim().equals("")){
+                    password.setError("Please enter password ");
+                    password.requestFocus();
+                }
+
+                if(!username.getText().toString().trim().equals("")&&
+                        !email.getText().toString().trim().equals("")&&
+                        !password.getText().toString().trim().equals(""))
+                {
+                    String name = username.getText().toString();
+                    String mail = email.getText().toString();
+                    String pass = password.getText().toString();
+                    regUser(name,mail,pass);
+                }
             }
         });
     }
