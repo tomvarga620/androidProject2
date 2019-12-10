@@ -19,5 +19,10 @@ public class SharedPrefs {
         Boolean state = modeSharedPrefs.getBoolean("darkmode",false);
         return state;
     }
+
+    public String getIP() {
+        String ip = "http://192.168.43.123:8080";
+        return ip;
+    }
 }
 
