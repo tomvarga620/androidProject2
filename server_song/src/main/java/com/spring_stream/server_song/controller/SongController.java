@@ -73,7 +73,11 @@ public class SongController {
     }
 
     @GetMapping(value="/streamSong")
-    public ResponseEntity getDownload(HttpServletResponse response, @RequestParam Long id, @RequestHeader("login") String username, @RequestHeader("token") String token) {
+    public ResponseEntity getDownload(HttpServletResponse response, @RequestParam Long id, @RequestHeader("username") String username, @RequestHeader("token") String token) {
+
+        System.out.println("username "+username);
+        System.out.println("token "+token);
+
 
         if (primitiveSecurity.accessTokens.isEmpty()){
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
