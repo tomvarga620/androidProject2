@@ -73,13 +73,13 @@ public class SongController {
     }
 
     @GetMapping(value="/streamSong")
-    public ResponseEntity getDownload(HttpServletResponse response, @RequestParam Long id, @RequestBody Credencials credencials) {
+    public ResponseEntity getDownload(HttpServletResponse response, @RequestParam Long id, @RequestHeader("login") String username, @RequestHeader("token") String token) {
 
         if (primitiveSecurity.accessTokens.isEmpty()){
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
-        if (primitiveSecurity.accessTokens.get(credencials.getusername()).equals(credencials.getToken())) {
+        if (primitiveSecurity.accessTokens.get(username).equals(token)) {
             File f = new File(songService.findPath(id));
             InputStream targetStream = null;
             try { targetStream = new FileInputStream(f); }
