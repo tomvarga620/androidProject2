@@ -1,14 +1,15 @@
 package com.tomvarga.androidproject2;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,14 +25,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class ListOfAlbumSongs extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
     SharedPrefs modSharedPrefs;
 
-    RecyclerViewAdapterAlbums adapter;
-    ArrayList<Album> list_albums = new ArrayList<>();
+    RecyclerViewAdapterSongs adapter;
+    ArrayList<Song> list_songs = new ArrayList<>();
     private RequestQueue myQueue;
+
+    Long idAlbum;
+    String albumName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +46,16 @@ public class MainActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
 
+        Bundle b = getIntent().getExtras();
+        idAlbum = b.getLong("idAlbum");
+        albumName = b.getString("albumName");
+
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_list_of_album_songs);
 
         initRecycleView();
-       // Button getRequest = findViewById(R.id.getReuqest);
+        // Button getRequest = findViewById(R.id.getReuqest);
         myQueue = Volley.newRequestQueue(this);
 
         jsonParse();
@@ -62,17 +71,19 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch(menuItem.getItemId()){
                     case R.id.home_action:
-
+                        Intent homeIntent = new Intent(ListOfAlbumSongs.this,MainActivity.class);
+                        startActivity(homeIntent);
+                        finish();
                         break;
 
                     case R.id.favorite_action:
-                        Intent favoriteIntent = new Intent(MainActivity.this,FavoriteActivity.class);
+                        Intent favoriteIntent = new Intent(ListOfAlbumSongs.this,FavoriteActivity.class);
                         startActivity(favoriteIntent);
                         finish();
                         break;
 
                     case R.id.settings_action:
-                        Intent settingsIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                        Intent settingsIntent = new Intent(ListOfAlbumSongs.this, ProfileActivity.class);
                         startActivity(settingsIntent);
                         finish();
                         break;
@@ -90,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void jsonParse() {
 
-        String url = "http://192.168.137.1:8080/getAllAlbums";
+        String url = "http://192.168.137.1:8080/getSongsFromAlbum?IdAlbum="+idAlbum;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -98,14 +109,17 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         try {
                             for (int i = 0; i < response.length(); i++) {
-                                JSONObject album = response.getJSONObject(i);
+                                JSONObject song = response.getJSONObject(i);
 
-                                Long id = album.getLong("id");
-                                String name = album.getString("albumName");
 
-                                Album albumObject = new Album(id,name);
+                                Long id=song.getLong("id");
+                                String author=song.getString("author");
+                                String songName=song.getString("songName");
+                                String genre=song.getString("genre");
 
-                                list_albums.add(albumObject);
+                                Song songObject = new Song(id,author,songName,genre,albumName);
+
+                                list_songs.add(songObject);
 
                             }
                             adapter.notifyDataSetChanged();
@@ -127,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initRecycleView() {
         RecyclerView recyclerView = findViewById(R.id.recycleviewonlistsongs);
-        adapter = new RecyclerViewAdapterAlbums(list_albums,this);
+        adapter = new RecyclerViewAdapterSongs(list_songs,this,albumName,idAlbum);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 }

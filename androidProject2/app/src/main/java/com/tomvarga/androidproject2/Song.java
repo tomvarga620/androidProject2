@@ -1,25 +1,27 @@
 package com.tomvarga.androidproject2;
 
 public class Song {
-    private String id;
+    private Long id;
     private String author;
     private String songName;
+    private String genre;
     private String album;
 
 
-    public Song(String id, String author, String songName, String album) {
+    public Song(Long id, String author, String songName,String genre, String album) {
         this.id = id;
         this.author = author;
         this.songName = songName;
+        this.genre = genre;
         this.album = album;
     }
 
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -47,13 +49,21 @@ public class Song {
         this.album = album;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
 
     @Override
     public String toString() {
         return "Song{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", author='" + author + '\'' +
                 ", songName='" + songName + '\'' +
+                ", genre='" + genre + '\'' +
                 ", album='" + album + '\'' +
                 '}';
     }

@@ -3,44 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent_layout"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginTop="20dp"
     android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/coverSong"
-        android:layout_width="116dp"
-        android:layout_height="116dp"
-        tools:srcCompat="@tools:sample/avatars[0]" />
-
     <TextView
         android:id="@+id/songTXV"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/coverSong"
-        android:layout_toRightOf="@+id/coverSong"
+        android:layout_marginLeft="5dp"
+        android:layout_marginEnd="10dp"
         android:text="TextView"
-        android:textSize="33sp"
         android:textColor="?attr/colortext"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/authorTXV"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/songTXV"
+        android:layout_alignEnd="@+id/songTXV"
         android:layout_marginLeft="5dp"
-        android:layout_marginStart="10dp"
-        android:textSize="23sp"
+        android:layout_marginEnd="46dp"
+        android:text="TextView"
         android:textColor="?attr/colortext"
-        android:layout_toEndOf="@+id/coverSong"
-        android:layout_toRightOf="@+id/coverSong"
-        android:text="TextView" />
-
+        android:textSize="14sp" />
 
 
 </RelativeLayout>

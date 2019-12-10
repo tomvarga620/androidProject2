@@ -50,8 +50,10 @@ public class RecyclerViewAdapterAlbums extends RecyclerView.Adapter<RecyclerView
 
             @Override
             public void onClick(View view) {
-                Intent listOfAlbumSongs = new Intent(view.getContext(),MediaPlayer.class);
+                Intent listOfAlbumSongs = new Intent(view.getContext(),ListOfAlbumSongs.class);
                 listOfAlbumSongs.putExtra("idAlbum",listOfALbums.get(position).getId());
+                listOfAlbumSongs.putExtra("albumName",listOfALbums.get(position).getAlbumName());
+
                 view.getContext().startActivity(listOfAlbumSongs);
             }
         });
@@ -94,7 +96,7 @@ public class RecyclerViewAdapterAlbums extends RecyclerView.Adapter<RecyclerView
         protected Bitmap doInBackground(String... params) {
             try {
                 //ipconfig
-                URL url = new URL("http://192.168.43.123:8080/getAlbumCover?id="+albumId);
+                URL url = new URL("http://192.168.137.1:8080/getAlbumCover?id="+albumId);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();

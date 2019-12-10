@@ -29,13 +29,16 @@ public class MediaPlayer extends AppCompatActivity {
 
     SharedPrefs modSharedPrefs;
 
+    Long albumId;
+    Long id;
     String author;
     String album;
+    String genre;
     String songName;
-    String id;
 
     TextView authorTXV;
     TextView albumTXV;
+    TextView genreTXV;
     TextView songNameTXV;
 
     ImageView imageAlbum;
@@ -56,9 +59,11 @@ public class MediaPlayer extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
 
-        id = b.getString("id");
+        albumId = b.getLong("albumId");
+        id = b.getLong("id");
         author = b.getString("author");
         album = b.getString("album");
+        genre = b.getString("genre");
         songName = b.getString("songName");
 
         authorTXV = findViewById(R.id.authorTXV);
@@ -67,10 +72,12 @@ public class MediaPlayer extends AppCompatActivity {
         albumTXV.setText(album);
         songNameTXV = findViewById(R.id.songTXV);
         songNameTXV.setText(songName);
+        genreTXV = findViewById(R.id.genreTXV);
+        genreTXV.setText(genre);
         imageAlbum = findViewById(R.id.imageAlbum);
         btnBack = findViewById(R.id.buttonBack);
 
-        new SendHttpRequestTask(id,imageAlbum).execute();
+        new SendHttpRequestTask(albumId,imageAlbum).execute();
 
         player = findViewById(R.id.playOrPause);
         player.setImageResource(R.drawable.ic_action_play);
@@ -85,7 +92,7 @@ public class MediaPlayer extends AppCompatActivity {
                     player.setImageResource(R.drawable.ic_action_pause);
 
                     if (initialStage) {
-                        new Player().execute("http://192.168.43.123:8080/streamSong?id="+id);
+                        new Player().execute("http://192.168.137.1:8080/streamSong?id="+id);
 //                        new Player().execute("https://www.ssaurel.com/tmp/mymusic.mp3");
 
                     } else {
@@ -191,11 +198,11 @@ public class MediaPlayer extends AppCompatActivity {
 
     private class SendHttpRequestTask extends AsyncTask<String, Void, Bitmap> {
 
-        String redId;
+        Long idAlbum;
         ImageView imageView;
 
-        SendHttpRequestTask(String resId, ImageView imageView) {
-            this.redId =resId;
+        SendHttpRequestTask(Long idAlbum, ImageView imageView) {
+            this.idAlbum =idAlbum;
             this.imageView = imageView;
         }
 
@@ -203,7 +210,7 @@ public class MediaPlayer extends AppCompatActivity {
         protected Bitmap doInBackground(String... params) {
             try {
                 //ipconfig
-                URL url = new URL("http://192.168.43.123:8080/getSongCover?id="+redId);
+                URL url = new URL("http://192.168.43.123:8080/getAlbumCover?id="+idAlbum);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();

@@ -26,10 +26,14 @@ public class RecyclerViewAdapterSongs extends RecyclerView.Adapter<RecyclerViewA
     private static String TAG = "RecyclerViewAdapterSongs";
     private ArrayList<Song> listOfSongs;
     Context context;
+    String albumName;
+    Long albumId;
 
-    public RecyclerViewAdapterSongs(ArrayList<Song> listOfSongs, Context context) {
+    public RecyclerViewAdapterSongs(ArrayList<Song> listOfSongs, Context context,String albumName,Long albumId) {
         this.listOfSongs = listOfSongs;
         this.context = context;
+        this.albumName=albumName;
+        this.albumId = albumId;
     }
 
     @NonNull
@@ -53,13 +57,13 @@ public class RecyclerViewAdapterSongs extends RecyclerView.Adapter<RecyclerViewA
                 Intent player = new Intent(view.getContext(),MediaPlayer.class);
                 player.putExtra("id",listOfSongs.get(position).getId());
                 player.putExtra("author",listOfSongs.get(position).getAuthor());
-                player.putExtra("album",listOfSongs.get(position).getAlbum());
+                player.putExtra("album",albumName);
+                player.putExtra("albumId",albumId);
+                player.putExtra("genre",listOfSongs.get(position).getGenre());
                 player.putExtra("songName",listOfSongs.get(position).getSongName());
                 view.getContext().startActivity(player);
             }
         });
-        new SendHttpRequestTask(listOfSongs.get(position).getId(),holder.coverSong).execute();
-
     }
 
 
@@ -71,52 +75,14 @@ public class RecyclerViewAdapterSongs extends RecyclerView.Adapter<RecyclerViewA
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView authorTXV;
-        TextView albumTXV;
         TextView songTXV;
-        ImageView coverSong;
         RelativeLayout parentLayout;
 
         public ViewHolder(View itemView){
             super(itemView);
             authorTXV = itemView.findViewById(R.id.authorTXV);
-            albumTXV = itemView.findViewById(R.id.albumTXV);
             songTXV = itemView.findViewById(R.id.songTXV);
-            coverSong = itemView.findViewById(R.id.coverSong);
             parentLayout = itemView.findViewById(R.id.parent_layout);
-        }
-    }
-
-
-    private class SendHttpRequestTask extends AsyncTask<String, Void, Bitmap> {
-
-        String redId;
-        ImageView imageView;
-
-        SendHttpRequestTask(String resId, ImageView imageView) {
-            this.redId =resId;
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            try {
-                //ipconfig
-                URL url = new URL("http://192.168.43.123:8080/getSongCover?id="+redId);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return myBitmap;
-            }catch (Exception e){
-                Log.d(TAG,e.getMessage());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            imageView.setImageBitmap(result);
         }
     }
 }
