@@ -1,9 +1,11 @@
 package com.tomvarga.androidproject2;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MediaPlayer extends AppCompatActivity {
 
@@ -26,6 +30,9 @@ public class MediaPlayer extends AppCompatActivity {
     private boolean initialStage = true;
     private android.media.MediaPlayer mediaPlayer;
     private ProgressDialog progressDialog;
+
+    private String username;
+    private String token;
 
     SharedPrefs modSharedPrefs;
 
@@ -92,7 +99,7 @@ public class MediaPlayer extends AppCompatActivity {
                     player.setImageResource(R.drawable.ic_action_pause);
 
                     if (initialStage) {
-                        new Player().execute("http://192.168.137.1:8080/streamSong?id="+id);
+                        new Player().execute("http://192.168.43.123:8080/streamSong?id="+id);
 //                        new Player().execute("https://www.ssaurel.com/tmp/mymusic.mp3");
 
                     } else {
@@ -120,7 +127,8 @@ public class MediaPlayer extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
+        username = getSharedPreferences("user", MODE_PRIVATE).getString("username","default");
+        token = getSharedPreferences("user", MODE_PRIVATE).getString("token","default");
     }
 
     @Override
@@ -152,8 +160,19 @@ public class MediaPlayer extends AppCompatActivity {
         protected Boolean doInBackground(String... strings) {
             Boolean prepared = false;
 
+            Map<String,String> headers = new HashMap<String, String>();
+            headers.put("username",username);
+            headers.put("token",token);
+
+            Uri uri = Uri.parse(strings[0]);
+
+
+            Log.d("URI",uri.toString());
+            Log.d("Username",headers.get("username"));
+            Log.d("Token",headers.get("token"));
+
             try {
-                mediaPlayer.setDataSource(strings[0]);
+                mediaPlayer.setDataSource(MediaPlayer.this.getApplicationContext(),uri,headers);
                 mediaPlayer.setOnCompletionListener(new android.media.MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(android.media.MediaPlayer mp) {

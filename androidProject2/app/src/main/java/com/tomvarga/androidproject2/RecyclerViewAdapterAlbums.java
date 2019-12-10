@@ -96,7 +96,7 @@ public class RecyclerViewAdapterAlbums extends RecyclerView.Adapter<RecyclerView
         protected Bitmap doInBackground(String... params) {
             try {
                 //ipconfig
-                URL url = new URL("http://192.168.137.1:8080/getAlbumCover?id="+albumId);
+                URL url = new URL("http://192.168.43.123:8080/getAlbumCover?id="+albumId);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();

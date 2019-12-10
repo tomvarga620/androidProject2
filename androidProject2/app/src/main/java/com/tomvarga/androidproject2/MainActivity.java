@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void jsonParse() {
 
-        String url = "http://192.168.137.1:8080/getAllAlbums";
+        String url = "http://192.168.43.123:8080/getAllAlbums";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
