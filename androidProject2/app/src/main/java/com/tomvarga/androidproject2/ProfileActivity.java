@@ -18,7 +18,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 
+import java.util.HashMap;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -126,24 +131,33 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void logoutUser(String name,String token){
 
-        Call<Void> call = RetroFitClient
+        HashMap<String, String> params = new HashMap<>();
+        params.put("username", name);
+        params.put("token", token);
+        String strRequestBody = new Gson().toJson(params);
+
+        final RequestBody requestBody = RequestBody.create(MediaType.
+                parse("application/json"),strRequestBody);
+
+        Call<ResponseBody> call = RetroFitClient
                 .getInstance()
                 .getLogoutApi()
-                .logoutRequest(name,token);
+                .logoutRequest(requestBody);
 
-        call.enqueue(new Callback<Void>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
                     Intent i = new Intent(ProfileActivity.this,LoginActivity.class);
                     SharedPreferences.Editor editor = getSharedPreferences("clear_cache", Context.MODE_PRIVATE).edit();
                     editor.clear();
                     editor.commit();
+                    startActivity(i);
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
             }
         });
