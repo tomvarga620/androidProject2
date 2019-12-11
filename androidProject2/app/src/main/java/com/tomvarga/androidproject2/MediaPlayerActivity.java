@@ -1,16 +1,18 @@
 package com.tomvarga.androidproject2;
 
 import android.app.ProgressDialog;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,12 +25,14 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MediaPlayer extends AppCompatActivity {
+public class MediaPlayerActivity extends AppCompatActivity {
 
     private FloatingActionButton player;
-    private boolean playPause;
+    private boolean playPause = false;
     private boolean initialStage = true;
     private android.media.MediaPlayer mediaPlayer;
+    private SeekBar seekBar;
+    private Handler handler;
     private ProgressDialog progressDialog;
 
     private String username;
@@ -47,9 +51,10 @@ public class MediaPlayer extends AppCompatActivity {
     TextView albumTXV;
     TextView genreTXV;
     TextView songNameTXV;
-
     ImageView imageAlbum;
     ImageView btnBack;
+
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +71,19 @@ public class MediaPlayer extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
 
+        handler = new Handler();
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
+        authorTXV = findViewById(R.id.authorTXV);
+        albumTXV = findViewById(R.id.albumTXV);
+        songNameTXV = findViewById(R.id.songTXV);
+        genreTXV = findViewById(R.id.genreTXV);
+        imageAlbum = findViewById(R.id.imageAlbum);
+        btnBack = findViewById(R.id.buttonBack);
+        player = findViewById(R.id.playOrPause);
+
+
+
+
         albumId = b.getLong("albumId");
         id = b.getLong("id");
         author = b.getString("author");
@@ -73,43 +91,42 @@ public class MediaPlayer extends AppCompatActivity {
         genre = b.getString("genre");
         songName = b.getString("songName");
 
-        authorTXV = findViewById(R.id.authorTXV);
         authorTXV.setText(author);
-        albumTXV = findViewById(R.id.albumTXV);
         albumTXV.setText(album);
-        songNameTXV = findViewById(R.id.songTXV);
         songNameTXV.setText(songName);
-        genreTXV = findViewById(R.id.genreTXV);
         genreTXV.setText(genre);
-        imageAlbum = findViewById(R.id.imageAlbum);
-        btnBack = findViewById(R.id.buttonBack);
 
         new SendHttpRequestTask(albumId,imageAlbum).execute();
-
-        player = findViewById(R.id.playOrPause);
-        player.setImageResource(R.drawable.ic_action_play);
         mediaPlayer = new android.media.MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//        mediaPlayer.setAudioAttributes(AudioManager.STREAM_MUSIC);
         progressDialog = new ProgressDialog(this);
+
+
+        player.setImageResource(R.drawable.ic_action_play);
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setAudioAttributes(
+                new AudioAttributes
+                        .Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .build());
+
         player.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if (!playPause){   //ak nehra ta ideme spustat a prepneme obrazok na hraje
+                if (!playPause){   //ak nehra ta ideme spustat a prepneme obrazok na hraje        vetva na spustenie
                     player.setImageResource(R.drawable.ic_action_pause);
 
-                    if (initialStage) {
+                    if (initialStage) { // len raz spustit asyncTask request
                         new Player().execute(modSharedPrefs.getIP()+"/streamSong?id="+id);
-//                        new Player().execute("https://www.ssaurel.com/tmp/mymusic.mp3");
 
                     } else {
-                        if (!mediaPlayer.isPlaying()){
+                        if (!mediaPlayer.isPlaying()){  //ak uz asynTask presiel a nehra spusti
                             mediaPlayer.start();
+                            changeSeekbar();
                         }
                     }
 
                     playPause = true;
-                } else {
+                } else {  //playPause je true    vetva na zastavenie
                     player.setImageResource(R.drawable.ic_action_play);
 
                     if (mediaPlayer.isPlaying()) {
@@ -120,6 +137,28 @@ public class MediaPlayer extends AppCompatActivity {
                 }
             }
         });
+
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if(b)
+                {
+                    mediaPlayer.seekTo(i);  // ak sa zmenil stav nastav playler na current time
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,31 +173,68 @@ public class MediaPlayer extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(0,R.anim.slide_out_left);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
         if (mediaPlayer != null){
             mediaPlayer.reset();
             mediaPlayer.release();
-            mediaPlayer = null;
+//            mediaPlayer = null;
+        }
+        finish();
+    }
+
+//    @Override
+//    public void finish() {
+//        super.finish();
+//        overridePendingTransition(0,R.anim.slide_out_left);
+//    }
+
+//    @Override
+//    protected void onPause() { //Pause means shuting down I thing
+//        super.onPause();
+//
+//        Log.i("onPause","Time "+mediaPlayer.getCurrentPosition());
+//
+//    }
+
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putInt("timePlayed", mediaPlayer.getCurrentPosition());
+//        Log.i("onSaveInstanceState", String.valueOf(outState.getInt("timePlayed")));
+//
+//    }
+//
+//    @Override
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        int time = savedInstanceState.getInt("timePlayed");
+//        mediaPlayer.seekTo(time);
+//        changeSeekbar();
+//        Log.i("onRestoreInstanceState", String.valueOf(savedInstanceState.getInt("timePlayed")));
+//
+//    }
+
+
+
+    private void  changeSeekbar(){
+        seekBar.setProgress(mediaPlayer.getCurrentPosition());
+        if (mediaPlayer.isPlaying())
+        {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    changeSeekbar();
+                }
+            };
+            handler.postDelayed(runnable, 300); //handler je na to ze invokne runnable na threade napr tu kazdu sekundu
         }
     }
+
+
 
     class Player extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            Boolean prepared = false;
 
             Map<String,String> headers = new HashMap<String, String>();
             headers.put("username",username);
@@ -172,7 +248,7 @@ public class MediaPlayer extends AppCompatActivity {
             Log.d("Token",headers.get("token"));
 
             try {
-                mediaPlayer.setDataSource(MediaPlayer.this.getApplicationContext(),uri,headers);
+                mediaPlayer.setDataSource(MediaPlayerActivity.this.getApplicationContext(),uri,headers);
                 mediaPlayer.setOnCompletionListener(new android.media.MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(android.media.MediaPlayer mp) {
@@ -181,18 +257,17 @@ public class MediaPlayer extends AppCompatActivity {
                         player.setImageResource(R.drawable.ic_action_play);
                         mediaPlayer.stop();
                         mediaPlayer.reset();
+                        Log.i("SONG DURATION", String.valueOf(mediaPlayer.getDuration()));
                     }
                 });
 
                 mediaPlayer.prepare();
-                prepared = true;
 
             } catch (Exception e){
                 Log.e("MyAudioStreamApp", e.getMessage());
-                prepared = false;
             }
 
-            return prepared;
+            return true;
         }
 
         @Override
@@ -201,9 +276,11 @@ public class MediaPlayer extends AppCompatActivity {
             if (progressDialog.isShowing()){
                 progressDialog.cancel();
             }
-
+            seekBar.setMax(mediaPlayer.getDuration()); //30mins in milliseconds
             mediaPlayer.start();
             initialStage = false;
+            changeSeekbar();
+
         }
 
         @Override
@@ -215,6 +292,19 @@ public class MediaPlayer extends AppCompatActivity {
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+    //Only Cover Photo
     private class SendHttpRequestTask extends AsyncTask<String, Void, Bitmap> {
 
         Long idAlbum;

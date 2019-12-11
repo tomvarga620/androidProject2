@@ -2,23 +2,16 @@ package com.tomvarga.androidproject2;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapterSongs extends RecyclerView.Adapter<RecyclerViewAdapterSongs.ViewHolder> {
@@ -54,7 +47,7 @@ public class RecyclerViewAdapterSongs extends RecyclerView.Adapter<RecyclerViewA
 
             @Override
             public void onClick(View view) {
-                Intent player = new Intent(view.getContext(),MediaPlayer.class);
+                Intent player = new Intent(view.getContext(), MediaPlayerActivity.class);
                 player.putExtra("id",listOfSongs.get(position).getId());
                 player.putExtra("author",listOfSongs.get(position).getAuthor());
                 player.putExtra("album",albumName);
