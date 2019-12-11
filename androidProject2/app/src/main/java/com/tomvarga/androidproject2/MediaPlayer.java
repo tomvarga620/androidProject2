@@ -99,7 +99,7 @@ public class MediaPlayer extends AppCompatActivity {
                     player.setImageResource(R.drawable.ic_action_pause);
 
                     if (initialStage) {
-                        new Player().execute("http://192.168.43.123:8080/streamSong?id="+id);
+                        new Player().execute(modSharedPrefs.getIP()+"/streamSong?id="+id);
 //                        new Player().execute("https://www.ssaurel.com/tmp/mymusic.mp3");
 
                     } else {
@@ -229,7 +229,7 @@ public class MediaPlayer extends AppCompatActivity {
         protected Bitmap doInBackground(String... params) {
             try {
                 //ipconfig
-                URL url = new URL("http://192.168.43.123:8080/getAlbumCover?id="+idAlbum);
+                URL url = new URL(modSharedPrefs.getIP()+"/getAlbumCover?id="+idAlbum);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();

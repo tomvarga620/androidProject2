@@ -28,10 +28,12 @@ public class RecyclerViewAdapterAlbums extends RecyclerView.Adapter<RecyclerView
     private static String TAG = "RecyclerViewAdapterAlbums";
     private ArrayList<Album> listOfALbums;
     Context context;
+    SharedPrefs sharedPrefs;
 
     public RecyclerViewAdapterAlbums(ArrayList<Album> listOfALbums, Context context) {
         this.listOfALbums = listOfALbums;
         this.context = context;
+        sharedPrefs = new SharedPrefs(context);
     }
 
     @NonNull
@@ -96,7 +98,7 @@ public class RecyclerViewAdapterAlbums extends RecyclerView.Adapter<RecyclerView
         protected Bitmap doInBackground(String... params) {
             try {
                 //ipconfig
-                URL url = new URL("http://192.168.43.123:8080/getAlbumCover?id="+albumId);
+                URL url = new URL(sharedPrefs.getIP()+"/getAlbumCover?id="+albumId);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();

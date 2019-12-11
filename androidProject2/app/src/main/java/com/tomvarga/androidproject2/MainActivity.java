@@ -2,6 +2,7 @@ package com.tomvarga.androidproject2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void jsonParse() {
 
-        String url = "http://192.168.43.123:8080/getAllAlbums";
+        String url = modSharedPrefs.getIP()+"/getAllAlbums";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
