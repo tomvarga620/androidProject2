@@ -5,10 +5,13 @@ import android.content.SharedPreferences;
 
 public class SharedPrefs {
     SharedPreferences modeSharedPrefs;
+    static final String PREF_USER_NAME= "username";
 
     public SharedPrefs(Context context){
         modeSharedPrefs = context.getSharedPreferences("filename",Context.MODE_PRIVATE);
     }
+
+
 
     public void setDarkModeState(Boolean state){
         SharedPreferences.Editor editor = modeSharedPrefs.edit();

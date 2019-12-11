@@ -149,7 +149,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
                     Intent i = new Intent(ProfileActivity.this,LoginActivity.class);
-                    SharedPreferences.Editor editor = getSharedPreferences("clear_cache", Context.MODE_PRIVATE).edit();
+                    SharedPreferences.Editor editor = getSharedPreferences("user", Context.MODE_PRIVATE).edit();
                     editor.clear();
                     editor.commit();
                     startActivity(i);

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,11 +41,12 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.loginPassword);
 
         validator = new AwesomeValidation(ValidationStyle.BASIC);
-
         //username
         validator.addValidation(this,R.id.loginUsername, RegexTemplate.NOT_EMPTY,R.string.invalid_name);
         //password
         validator.addValidation(this,R.id.loginPassword, RegexTemplate.NOT_EMPTY,R.string.invalid_pass);
+
+        checkLogin();
 
         signUp = findViewById(R.id.signUp);
         signUp.setOnClickListener(new View.OnClickListener() {
@@ -119,9 +121,21 @@ public class LoginActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    private void checkLogin(){
+        if(getUserToken() != null){
+            Intent i = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(i);
+        }
+    }
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(0,R.anim.slide_out_left);
+    }
+
+    private String getUserToken(){
+        SharedPreferences prefs = getSharedPreferences("user", MODE_PRIVATE);
+        String token = prefs.getString("token",null);
+        return token;
     }
 }

@@ -94,8 +94,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.finish();
         overridePendingTransition(0,R.anim.slide_out_left);
     }
-
-
 }
 
 
