@@ -57,6 +57,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.624" />
 
+    <EditText
+        android:id="@+id/regPasswordRepeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Repeat Password"
+        android:textColorHint="#999999"
+        android:textColor="#666666"
+        android:background="@drawable/custom_textedit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.728" />
+
     <Button
         android:id="@+id/regBtnSubmit"
         android:layout_width="213dp"
@@ -69,7 +85,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.728"/>
+        app:layout_constraintVertical_bias="0.832"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

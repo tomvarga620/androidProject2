@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">androidProject2</string>
+    <string name="invalid_name">Username is empty</string>
+    <string name="invalid_pass">Password is empty</string>
+    <string name="invalid_email">Email is empty</string>
 </resources>

@@ -5,10 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.tomvarga.androidproject2.UserData.RegistrationData;
 
 import okhttp3.ResponseBody;
@@ -21,7 +26,10 @@ public class RegisterActivity extends AppCompatActivity {
     EditText username;
     EditText email;
     EditText password;
+    EditText confirmPass;
     Button btnSubmit;
+
+    AwesomeValidation validator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,36 +39,27 @@ public class RegisterActivity extends AppCompatActivity {
         username = findViewById(R.id.regUsername);
         email = findViewById(R.id.regEmail);
         password = findViewById(R.id.regPassword);
+        confirmPass = findViewById(R.id.regPasswordRepeat);
         btnSubmit = findViewById(R.id.regBtnSubmit);
 
+        validator = new AwesomeValidation(ValidationStyle.BASIC);
+
+        validator.addValidation(this,R.id.regUsername,RegexTemplate.NOT_EMPTY,R.string.invalid_name);
+        validator.addValidation(this,R.id.regEmail, Patterns.EMAIL_ADDRESS,R.string.invalid_email);
+        validator.addValidation(this,R.id.regPassword,RegexTemplate.NOT_EMPTY,R.string.invalid_pass);
+        validator.addValidation(this,R.id.regPasswordRepeat,R.id.regPassword,R.string.invalid_pass);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(username.getText().toString().equals("")){
-                    username.setError("Please enter username");
-                    username.requestFocus();
-                }
-
-                if(email.getText().toString().trim().equals("")){
-                    email.setError("Please enter e-mail");
-                    email.requestFocus();
-                }
-
-                if(password.getText().toString().trim().equals("")){
-                    password.setError("Please enter password ");
-                    password.requestFocus();
-                }
-
-                if(!username.getText().toString().trim().equals("")&&
-                        !email.getText().toString().trim().equals("")&&
-                        !password.getText().toString().trim().equals(""))
-                {
+                if(validator.validate()){
                     String name = username.getText().toString();
                     String mail = email.getText().toString();
                     String pass = password.getText().toString();
                     regUser(name,mail,pass);
+                }else {
+                    Toast.makeText(getApplicationContext(),"Registration Error",Toast.LENGTH_SHORT).show();
                 }
             }
         });
