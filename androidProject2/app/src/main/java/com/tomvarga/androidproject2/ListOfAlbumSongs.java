@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,6 +25,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static android.view.View.GONE;
+
 public class ListOfAlbumSongs extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
@@ -35,6 +38,7 @@ public class ListOfAlbumSongs extends AppCompatActivity {
 
     Long idAlbum;
     String albumName;
+    TextView albumView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,6 @@ public class ListOfAlbumSongs extends AppCompatActivity {
         idAlbum = b.getLong("idAlbum");
         albumName = b.getString("albumName");
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_album_songs);
 
@@ -57,8 +60,10 @@ public class ListOfAlbumSongs extends AppCompatActivity {
         // Button getRequest = findViewById(R.id.getReuqest);
         myQueue = Volley.newRequestQueue(this);
 
-        jsonParse();
+        albumView = findViewById(R.id.albumText);
+        albumView.setText(albumName);
 
+        jsonParse();
 
         bottomNav = findViewById(R.id.bottom_navigation);
         Menu menu = bottomNav.getMenu();
@@ -90,13 +95,6 @@ public class ListOfAlbumSongs extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(0,R.anim.slide_out_left);
-    }
-
 
     private void jsonParse() {
 
@@ -144,4 +142,11 @@ public class ListOfAlbumSongs extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.slide_out_left);
+    }
+
 }
