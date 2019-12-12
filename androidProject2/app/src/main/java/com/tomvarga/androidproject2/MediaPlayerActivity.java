@@ -176,7 +176,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
         if (mediaPlayer != null){
             mediaPlayer.reset();
             mediaPlayer.release();
-//            mediaPlayer = null;
+            mediaPlayer = null;
         }
         finish();
     }
