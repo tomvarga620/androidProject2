@@ -2,7 +2,6 @@ package com.tomvarga.androidproject2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -127,7 +126,7 @@ public class ListOfAlbumSongs extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-                }, new Response.ErrorListener() {
+                },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
@@ -140,7 +139,7 @@ public class ListOfAlbumSongs extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     private void initRecycleView() {
-        RecyclerView recyclerView = findViewById(R.id.recycleviewonlistsongs);
+        RecyclerView recyclerView = findViewById(R.id.recycleViewAlbums);
         adapter = new RecyclerViewAdapterSongs(list_songs,this,albumName,idAlbum);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

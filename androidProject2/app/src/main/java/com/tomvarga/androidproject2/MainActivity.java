@@ -2,7 +2,6 @@ package com.tomvarga.androidproject2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     private void initRecycleView() {
-        RecyclerView recyclerView = findViewById(R.id.recycleviewonlistsongs);
+        RecyclerView recyclerView = findViewById(R.id.recycleViewAlbums);
         adapter = new RecyclerViewAdapterAlbums(list_albums,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
