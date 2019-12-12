@@ -1,6 +1,7 @@
 package com.tomvarga.androidproject2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +27,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.view.View.GONE;
+
 public class LoginActivity extends AppCompatActivity {
 
-    TextView signUp;
     EditText username,password;
     Button btnSubmit;
+    TextView signUp;
 
     AwesomeValidation validator;
 
@@ -36,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        findViewById(R.id.loadingBar).setVisibility(GONE);
 
         username = (EditText) findViewById(R.id.loginUsername);
         password = (EditText) findViewById(R.id.loginPassword);
@@ -45,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         validator.addValidation(this,R.id.loginUsername, RegexTemplate.NOT_EMPTY,R.string.invalid_name);
         //password
         validator.addValidation(this,R.id.loginPassword, RegexTemplate.NOT_EMPTY,R.string.invalid_pass);
-
         checkLogin();
 
         signUp = findViewById(R.id.signUp);
@@ -123,19 +129,43 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkLogin(){
         if(getUserToken() != null){
+            setViewInvisible();
             Intent i = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(i);
+        }else {
+            setViewVisible();
         }
     }
+
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(0,R.anim.slide_out_left);
+        findViewById(R.id.loadingBar).setVisibility(GONE);
+
     }
 
     private String getUserToken(){
         SharedPreferences prefs = getSharedPreferences("user", MODE_PRIVATE);
         String token = prefs.getString("token",null);
         return token;
+    }
+
+    private void setViewInvisible(){
+        findViewById(R.id.loadingBar).setVisibility(View.VISIBLE);
+        findViewById(R.id.logo).setVisibility(GONE);
+        findViewById(R.id.loginUsername).setVisibility(GONE);
+        findViewById(R.id.loginPassword).setVisibility(GONE);
+        findViewById(R.id.loginBtnSubmit).setVisibility(GONE);
+        findViewById(R.id.signUp).setVisibility(GONE);
+    }
+
+    private void setViewVisible() {
+        findViewById(R.id.loadingBar).setVisibility(View.GONE);
+        findViewById(R.id.logo).setVisibility(View.VISIBLE);
+        findViewById(R.id.loginUsername).setVisibility(View.VISIBLE);
+        findViewById(R.id.loginPassword).setVisibility(View.VISIBLE);
+        findViewById(R.id.loginBtnSubmit).setVisibility(View.VISIBLE);
+        findViewById(R.id.signUp).setVisibility(View.VISIBLE);
     }
 }

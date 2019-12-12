@@ -291,19 +291,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
             progressDialog.show();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     //Only Cover Photo
     private class SendHttpRequestTask extends AsyncTask<String, Void, Bitmap> {
 
