@@ -16,6 +16,8 @@ public class ActiveTokens {
         this.token = token;
     }
 
+    public ActiveTokens() {}
+
     public Long getId() {
         return id;
     }

@@ -1,16 +1,11 @@
 package com.spring_stream.security;
 
-import com.spring_stream.server_song.model.ActiveTokens;
-import com.spring_stream.server_song.service.ActiveTokenService;
-
 import java.security.SecureRandom;
 import java.util.*;
 
 public class PrimitiveSecurity {
 
     public static HashMap<String, String> accessTokens;
-
-    ActiveTokenService activeTokenService = new ActiveTokenService();
 
     private final SecureRandom secureRandom = new SecureRandom(); //threadsafe
     private final Base64.Encoder base64Encoder = Base64.getUrlEncoder(); //threadsafe
@@ -20,7 +15,6 @@ public class PrimitiveSecurity {
     public static PrimitiveSecurity getInstance() {
         if (primitiveSecurity == null) {
             accessTokens = new HashMap<>();
-//            restoreTokens();
             primitiveSecurity = new PrimitiveSecurity();
         }
 
@@ -33,18 +27,8 @@ public class PrimitiveSecurity {
         return base64Encoder.encodeToString(randomBytes);
     }
     public String newLogged(String username) {
-        System.out.println("activeTokenService "+activeTokenService);
         String newToken = generateNewToken();
         accessTokens.put(username,newToken);
-        if(activeTokenService.alreadyAdded(username,newToken)){
-            ActiveTokens update = activeTokenService.getActiveToken(username,newToken);
-            update.setUsername(username);
-            update.setToken(newToken);
-            activeTokenService.saveActiveUser(update);
-        }else{
-            activeTokenService.saveActiveUser(new ActiveTokens(username,newToken));
-        }
-
         return newToken;
     }
 
@@ -54,13 +38,4 @@ public class PrimitiveSecurity {
             System.out.println(entry.getKey()+" : "+entry.getValue());
         }
     }
-
-//    private static void restoreTokens() {
-//            List<ActiveTokens> toRestore = activeTokenService.getActiveUsers();
-//        if (!toRestore.isEmpty()) {
-//            for(ActiveTokens current : toRestore) {
-//                accessTokens.put(current.getUsername(),current.getToken());
-//            }
-//        }
-//    }
 }

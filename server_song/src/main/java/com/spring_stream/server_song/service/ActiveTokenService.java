@@ -3,8 +3,10 @@ package com.spring_stream.server_song.service;
 import com.spring_stream.server_song.model.ActiveTokens;
 import com.spring_stream.server_song.repozitory.ActiveTokensRepozitory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,23 +15,23 @@ import java.util.Optional;
 public class ActiveTokenService {
 
     @Autowired
-    private ActiveTokensRepozitory activeTokensRepozitory;
+    ActiveTokensRepozitory activeTokensRepozitory;
 
     public List<ActiveTokens> getActiveUsers() {
-        System.out.println("Sum of Records");
-        System.out.println(activeTokensRepozitory);
-//        System.out.println(activeTokensRepozitory.count());
-        return new ArrayList<>();
-
+        if (activeTokensRepozitory.count()==0){
+            return new ArrayList<>();
+        }else {
+           return activeTokensRepozitory.findAll();
+        }
     }
 
     public void saveActiveUser(ActiveTokens activeUSER) {
         activeTokensRepozitory.save(activeUSER);
     }
 
-    public boolean alreadyAdded(String username, String token) {
+    public boolean alreadyAdded(String username) {
         Optional<ActiveTokens> findOrNot = activeTokensRepozitory
-                .findByUsernameAndToken(username,token);
+                .findByUsername(username);
 
         if (findOrNot.isEmpty()){
             return false;
@@ -38,14 +40,15 @@ public class ActiveTokenService {
         return true;
     }
 
-    public ActiveTokens getActiveToken(String username, String token) {
+    public ActiveTokens getActiveToken(String username) {
         Optional<ActiveTokens> findOrNot = activeTokensRepozitory
-                .findByUsernameAndToken(username,token);
+                .findByUsername(username);
 
         return findOrNot.get();
     }
 
-    public void deleteActiveToken(String username, String token) {
-        activeTokensRepozitory.deleteActiveTokensByUsernameAndToken(username,token);
+    @Transactional
+    public void deleteActiveToken(String username) {
+        activeTokensRepozitory.deleteActiveTokensByUsername(username);
     }
 }

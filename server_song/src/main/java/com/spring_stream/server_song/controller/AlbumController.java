@@ -1,6 +1,6 @@
 package com.spring_stream.server_song.controller;
 
-import com.spring_stream.server_song.security.PrimitiveSecurity;
+import com.spring_stream.security.PrimitiveSecurity;
 import com.spring_stream.server_song.model.Album;
 import com.spring_stream.server_song.service.AlbumService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
