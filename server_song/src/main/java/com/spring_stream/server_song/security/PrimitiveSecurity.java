@@ -2,15 +2,25 @@ package com.spring_stream.security;
 
 import com.spring_stream.server_song.model.ActiveTokens;
 import com.spring_stream.server_song.service.ActiveTokenService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
+import javax.persistence.Access;
 import java.security.SecureRandom;
 import java.util.*;
 
+@Controller
 public class PrimitiveSecurity {
 
     public static HashMap<String, String> accessTokens;
 
-    ActiveTokenService activeTokenService = new ActiveTokenService();
+    @Autowired
+    @Qualifier("activeTokenService")
+    ActiveTokenService activeTokenService;
 
     private final SecureRandom secureRandom = new SecureRandom(); //threadsafe
     private final Base64.Encoder base64Encoder = Base64.getUrlEncoder(); //threadsafe
@@ -36,14 +46,14 @@ public class PrimitiveSecurity {
         System.out.println("activeTokenService "+activeTokenService);
         String newToken = generateNewToken();
         accessTokens.put(username,newToken);
-        if(activeTokenService.alreadyAdded(username,newToken)){
-            ActiveTokens update = activeTokenService.getActiveToken(username,newToken);
-            update.setUsername(username);
-            update.setToken(newToken);
-            activeTokenService.saveActiveUser(update);
-        }else{
-            activeTokenService.saveActiveUser(new ActiveTokens(username,newToken));
-        }
+//        if(activeTokenService.alreadyAdded(username,newToken)){
+//            ActiveTokens update = activeTokenService.getActiveToken(username,newToken);
+//            update.setUsername(username);
+//            update.setToken(newToken);
+//            activeTokenService.saveActiveUser(update);
+//        }else{
+//            activeTokenService.saveActiveUser(new ActiveTokens(username,newToken));
+//        }
 
         return newToken;
     }

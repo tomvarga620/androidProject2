@@ -4,6 +4,7 @@ import com.spring_stream.security.Credencials;
 import com.spring_stream.security.PrimitiveSecurity;
 import com.spring_stream.server_song.model.Account;
 import com.spring_stream.server_song.service.AccountService;
+import com.spring_stream.server_song.service.ActiveTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +17,9 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private ActiveTokenService activeTokenService;
 
     private PrimitiveSecurity primitiveSecurity = PrimitiveSecurity.getInstance();
 
@@ -59,6 +63,7 @@ public class AccountController {
     public ResponseEntity Logout(@RequestBody Credencials credencials) {
         System.out.println("username: "+credencials.getusername());
         if (primitiveSecurity.accessTokens.containsKey(credencials.getusername()) && primitiveSecurity.accessTokens.get(credencials.getusername()).equals(credencials.getToken())) {
+            activeTokenService.deleteActiveToken(credencials.getusername(),credencials.getToken());
             primitiveSecurity.accessTokens.remove(credencials.getusername());
             System.out.println(credencials.getusername()+" : Logout successful");
             return new ResponseEntity (HttpStatus.OK);

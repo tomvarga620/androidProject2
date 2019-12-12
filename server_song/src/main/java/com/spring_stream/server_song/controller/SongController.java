@@ -1,7 +1,6 @@
 package com.spring_stream.server_song.controller;
 
-import com.spring_stream.security.Credencials;
-import com.spring_stream.security.PrimitiveSecurity;
+import com.spring_stream.server_song.security.PrimitiveSecurity;
 import com.spring_stream.server_song.model.Album;
 import com.spring_stream.server_song.model.Song;
 import com.spring_stream.server_song.service.AlbumService;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
-import java.util.function.Consumer;
 
 @RestController
 public class SongController {
