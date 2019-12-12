@@ -1,9 +1,7 @@
 package com.spring_stream.security;
 
 import java.security.SecureRandom;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class PrimitiveSecurity {
 
@@ -28,12 +26,9 @@ public class PrimitiveSecurity {
         secureRandom.nextBytes(randomBytes);
         return base64Encoder.encodeToString(randomBytes);
     }
-
     public String newLogged(String username) {
-
         String newToken = generateNewToken();
         accessTokens.put(username,newToken);
-
         return newToken;
     }
 
