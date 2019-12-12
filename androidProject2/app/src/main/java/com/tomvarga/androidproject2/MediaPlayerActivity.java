@@ -82,6 +82,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
         player = findViewById(R.id.playOrPause);
 
 
+        songNameTXV.setSelected(true);
 
 
         albumId = b.getLong("albumId");
