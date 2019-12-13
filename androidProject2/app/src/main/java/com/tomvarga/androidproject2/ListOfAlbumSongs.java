@@ -36,7 +36,6 @@ public class ListOfAlbumSongs extends AppCompatActivity {
     ArrayList<Song> list_songs = new ArrayList<>();
     private RequestQueue myQueue;
 
-    TextView songName;
     Long idAlbum;
     String albumName;
     TextView albumView;
@@ -56,9 +55,6 @@ public class ListOfAlbumSongs extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_album_songs);
-
-        songName = findViewById(R.id.songTXV);
-        songName.setActivated(true);
 
         initRecycleView();
         // Button getRequest = findViewById(R.id.getReuqest);

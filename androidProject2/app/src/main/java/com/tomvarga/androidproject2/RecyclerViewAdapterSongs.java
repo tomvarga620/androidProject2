@@ -43,6 +43,7 @@ public class RecyclerViewAdapterSongs extends RecyclerView.Adapter<RecyclerViewA
         holder.authorTXV.setText(listOfSongs.get(position).getAuthor());
       //  holder.albumTXV.setText(listOfSongs.get(position).getAlbum());
         holder.songTXV.setText(listOfSongs.get(position).getSongName());
+        holder.songTXV.setSelected(true);
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
 
             @Override
