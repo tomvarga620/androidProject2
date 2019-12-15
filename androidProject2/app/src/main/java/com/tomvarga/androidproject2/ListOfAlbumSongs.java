@@ -1,15 +1,16 @@
 package com.tomvarga.androidproject2;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,14 +19,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import static android.view.View.GONE;
 
 public class ListOfAlbumSongs extends AppCompatActivity {
 
@@ -39,6 +39,10 @@ public class ListOfAlbumSongs extends AppCompatActivity {
     Long idAlbum;
     String albumName;
     TextView albumView;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor sharedPreferencesEditor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +123,18 @@ public class ListOfAlbumSongs extends AppCompatActivity {
                                 list_songs.add(songObject);
 
                             }
+
+
+
+                            sharedPreferences = getSharedPreferences("songListPreferences", MODE_PRIVATE);
+                            sharedPreferencesEditor = sharedPreferences.edit();
+                            Gson gson = new Gson();
+                            String json = gson.toJson(list_songs);
+                            sharedPreferencesEditor.putString("currentListSong",json);
+                            sharedPreferencesEditor.apply();
+
+
+
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
