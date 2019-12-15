@@ -24,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class MediaPlayerActivity extends AppCompatActivity {
 
@@ -54,6 +55,9 @@ public class MediaPlayerActivity extends AppCompatActivity {
     ImageView imageAlbum;
     ImageView btnBack;
 
+    TextView currentTime;
+    TextView limitTime;
+
     private Runnable runnable;
 
     @Override
@@ -80,6 +84,8 @@ public class MediaPlayerActivity extends AppCompatActivity {
         imageAlbum = findViewById(R.id.imageAlbum);
         btnBack = findViewById(R.id.buttonBack);
         player = findViewById(R.id.playOrPause);
+        currentTime = findViewById(R.id.currentTime);
+        limitTime = findViewById(R.id.limitTime);
 
 
         songNameTXV.setSelected(true);
@@ -217,7 +223,17 @@ public class MediaPlayerActivity extends AppCompatActivity {
 
 
     private void  changeSeekbar(){
-        seekBar.setProgress(mediaPlayer.getCurrentPosition());
+
+        int currentPosition = mediaPlayer.getCurrentPosition();
+
+        String time = String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(currentPosition),
+                TimeUnit.MILLISECONDS.toSeconds(currentPosition) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(currentPosition))
+        );
+
+        seekBar.setProgress(currentPosition);
+        currentTime.setText(time);
         if (mediaPlayer.isPlaying())
         {
             runnable = new Runnable() {
@@ -226,7 +242,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
                     changeSeekbar();
                 }
             };
-            handler.postDelayed(runnable, 300); //handler je na to ze invokne runnable na threade napr tu kazdu sekundu
+            handler.postDelayed(runnable, 1000); //handler je na to ze invokne runnable na threade napr tu kazdu sekundu
         }
     }
 
@@ -277,7 +293,14 @@ public class MediaPlayerActivity extends AppCompatActivity {
             if (progressDialog.isShowing()){
                 progressDialog.cancel();
             }
-            seekBar.setMax(mediaPlayer.getDuration()); //30mins in milliseconds
+            int duration = mediaPlayer.getDuration();
+            seekBar.setMax(duration); //30mins in milliseconds
+            String time = String.format("%02d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(duration),
+                    TimeUnit.MILLISECONDS.toSeconds(duration) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
+            );
+            limitTime.setText(time);
             mediaPlayer.start();
             initialStage = false;
             changeSeekbar();
