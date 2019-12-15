@@ -24,7 +24,7 @@ public class SharedPrefs {
     }
 
     public String getIP() {
-        String ip = "http://192.168.2.15:8080";
+        String ip = "http://192.168.10.107:8080";
         return ip;
     }
 }
