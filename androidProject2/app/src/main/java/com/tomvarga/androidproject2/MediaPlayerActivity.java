@@ -1,6 +1,8 @@
 package com.tomvarga.androidproject2;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioAttributes;
@@ -18,10 +20,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +35,9 @@ import java.util.concurrent.TimeUnit;
 public class MediaPlayerActivity extends AppCompatActivity {
 
     private FloatingActionButton player;
+    private FloatingActionButton previousSong;
+    private FloatingActionButton nextSong;
+
     private boolean playPause = false;
     private boolean initialStage = true;
     private android.media.MediaPlayer mediaPlayer;
@@ -40,6 +49,10 @@ public class MediaPlayerActivity extends AppCompatActivity {
     private String token;
 
     SharedPrefs modSharedPrefs;
+    int currentSongIndex;
+
+
+    ArrayList<Song> currentSongList = new ArrayList<>();
 
     Long albumId;
     Long id;
@@ -69,7 +82,6 @@ public class MediaPlayerActivity extends AppCompatActivity {
         } else {
             setTheme(R.style.AppTheme);
         }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.song_player);
 
@@ -83,7 +95,11 @@ public class MediaPlayerActivity extends AppCompatActivity {
         genreTXV = findViewById(R.id.genreTXV);
         imageAlbum = findViewById(R.id.imageAlbum);
         btnBack = findViewById(R.id.buttonBack);
+
         player = findViewById(R.id.playOrPause);
+        previousSong = findViewById(R.id.rewindBack);
+        nextSong = findViewById(R.id.rewindForward);
+
         currentTime = findViewById(R.id.currentTime);
         limitTime = findViewById(R.id.limitTime);
 
@@ -98,6 +114,8 @@ public class MediaPlayerActivity extends AppCompatActivity {
         genre = b.getString("genre");
         songName = b.getString("songName");
 
+        loadCurrentSongList();
+
         authorTXV.setText(author);
         albumTXV.setText(album);
         songNameTXV.setText(songName);
@@ -107,6 +125,54 @@ public class MediaPlayerActivity extends AppCompatActivity {
         mediaPlayer = new android.media.MediaPlayer();
         progressDialog = new ProgressDialog(this);
 
+
+        nextSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent player = new Intent(MediaPlayerActivity.this, MediaPlayerActivity.class);
+                Song song;
+                if (currentSongIndex==(currentSongList.size()-1)) {
+                    song = currentSongList.get(0);
+                } else {
+                    song = currentSongList.get(currentSongIndex+1);
+                }
+                player.putExtra("id",song.getId());
+                player.putExtra("author",song.getAuthor());
+                player.putExtra("album",album);
+                player.putExtra("albumId",albumId);
+                player.putExtra("genre",song.getGenre());
+                player.putExtra("songName",song.getSongName());
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                }
+                startActivity(player);
+            }
+        });
+
+        previousSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent player = new Intent(MediaPlayerActivity.this, MediaPlayerActivity.class);
+                Song song;
+                if (currentSongIndex==0) {
+                    song = currentSongList.get(currentSongList.size()-1);
+                } else {
+                    song = currentSongList.get(currentSongIndex-1);
+                }
+                player.putExtra("id",song.getId());
+                player.putExtra("author",song.getAuthor());
+                player.putExtra("album",album);
+                player.putExtra("albumId",albumId);
+                player.putExtra("genre",song.getGenre());
+                player.putExtra("songName",song.getSongName());
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                }
+                startActivity(player);
+            }
+        });
 
         player.setImageResource(R.drawable.ic_action_play);
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -348,5 +414,22 @@ public class MediaPlayerActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap result) {
             imageView.setImageBitmap(result);
         }
+    }
+
+    public void loadCurrentSongList() {
+       SharedPreferences sharedPreferences = getSharedPreferences("songListPreferences", MODE_PRIVATE);
+       Gson gson = new Gson();
+       String json = sharedPreferences.getString("currentListSong",null);
+       Type type = new TypeToken<ArrayList<Song>>() {}.getType();
+       currentSongList = gson.fromJson(json,type);
+
+       for (int i=0;i<currentSongList.size();i++) {
+           if (id == currentSongList.get(i).getId()) {
+               currentSongIndex = i;
+               break;
+           }
+       }
+
+
     }
 }
