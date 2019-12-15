@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:textColor="?attr/colortext"
-        android:textSize="35sp"
+        android:textSize="@dimen/_35sdp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -116,7 +116,7 @@
         android:scrollHorizontally="true"
         android:singleLine="true"
         android:textColor="?attr/colortext"
-        android:textSize="25sp"
+        android:textSize="@dimen/_40sdp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -129,7 +129,7 @@
         android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:textColor="?attr/colortext"
-        android:textSize="14sp"
+        android:textSize="@dimen/_17sdp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/albumTXV" />
@@ -142,7 +142,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?attr/colortext"
-        android:textSize="14sp"
+        android:textSize="@dimen/_17sdp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
@@ -155,7 +155,7 @@
         android:layout_marginBottom="8dp"
         android:text="00:00"
         android:textColor="?attr/colortext"
-        android:textSize="18sp"
+        android:textSize="@dimen/_18sdp"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -167,7 +167,7 @@
         android:layout_marginBottom="8dp"
         android:text="00:00"
         android:textColor="?attr/colortext"
-        android:textSize="18sp"
+        android:textSize="@dimen/_18sdp"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent" />
 
