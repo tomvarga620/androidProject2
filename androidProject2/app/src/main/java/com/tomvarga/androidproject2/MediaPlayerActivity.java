@@ -129,24 +129,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
         nextSong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent player = new Intent(MediaPlayerActivity.this, MediaPlayerActivity.class);
-                Song song;
-                if (currentSongIndex==(currentSongList.size()-1)) {
-                    song = currentSongList.get(0);
-                } else {
-                    song = currentSongList.get(currentSongIndex+1);
-                }
-                player.putExtra("id",song.getId());
-                player.putExtra("author",song.getAuthor());
-                player.putExtra("album",album);
-                player.putExtra("albumId",albumId);
-                player.putExtra("genre",song.getGenre());
-                player.putExtra("songName",song.getSongName());
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
-                }
-                startActivity(player);
+                playNextSong();
             }
         });
 
@@ -170,6 +153,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
                 }
+                finish();
                 startActivity(player);
             }
         });
@@ -181,7 +165,6 @@ public class MediaPlayerActivity extends AppCompatActivity {
                         .Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                         .build());
-
         player.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -210,8 +193,6 @@ public class MediaPlayerActivity extends AppCompatActivity {
                 }
             }
         });
-
-
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -241,6 +222,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
         });
         username = getSharedPreferences("user", MODE_PRIVATE).getString("username","default");
         token = getSharedPreferences("user", MODE_PRIVATE).getString("token","default");
+        initialClick();
     }
 
     @Override
@@ -309,6 +291,10 @@ public class MediaPlayerActivity extends AppCompatActivity {
                 }
             };
             handler.postDelayed(runnable, 1000); //handler je na to ze invokne runnable na threade napr tu kazdu sekundu
+        }
+
+        if (currentPosition == mediaPlayer.getDuration()) {
+            playNextSong();
         }
     }
 
@@ -429,7 +415,32 @@ public class MediaPlayerActivity extends AppCompatActivity {
                break;
            }
        }
+    }
 
+    public void initialClick() {
+        player.setImageResource(R.drawable.ic_action_pause);
+        new Player().execute(modSharedPrefs.getIP()+"/streamSong?id="+id);
+        playPause = true;
+    }
 
+    public void playNextSong() {
+        Intent player = new Intent(MediaPlayerActivity.this, MediaPlayerActivity.class);
+        Song song;
+        if (currentSongIndex==(currentSongList.size()-1)) {
+            song = currentSongList.get(0);
+        } else {
+            song = currentSongList.get(currentSongIndex+1);
+        }
+        player.putExtra("id",song.getId());
+        player.putExtra("author",song.getAuthor());
+        player.putExtra("album",album);
+        player.putExtra("albumId",albumId);
+        player.putExtra("genre",song.getGenre());
+        player.putExtra("songName",song.getSongName());
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+        finish();
+        startActivity(player);
     }
 }
