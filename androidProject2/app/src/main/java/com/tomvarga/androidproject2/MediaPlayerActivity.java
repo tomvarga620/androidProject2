@@ -152,6 +152,8 @@ public class MediaPlayerActivity extends AppCompatActivity {
                 player.putExtra("songName",song.getSongName());
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
+                    handler.removeCallbacks(runnable);
+                    mediaPlayer.release();
                 }
                 finish();
                 startActivity(player);
@@ -232,6 +234,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
             mediaPlayer.reset();
             mediaPlayer.release();
             mediaPlayer = null;
+            handler.removeCallbacks(runnable);
         }
         finish();
     }
@@ -279,7 +282,6 @@ public class MediaPlayerActivity extends AppCompatActivity {
                 TimeUnit.MILLISECONDS.toSeconds(currentPosition) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(currentPosition))
         );
-
         seekBar.setProgress(currentPosition);
         currentTime.setText(time);
         if (mediaPlayer.isPlaying())
@@ -293,11 +295,11 @@ public class MediaPlayerActivity extends AppCompatActivity {
             handler.postDelayed(runnable, 1000); //handler je na to ze invokne runnable na threade napr tu kazdu sekundu
         }
 
+
         if (currentPosition == mediaPlayer.getDuration()) {
             playNextSong();
         }
     }
-
 
 
     class Player extends AsyncTask<String, Void, Boolean> {
@@ -439,6 +441,9 @@ public class MediaPlayerActivity extends AppCompatActivity {
         player.putExtra("songName",song.getSongName());
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
+            handler.removeCallbacks(runnable);
+            mediaPlayer.release();
+//            mediaPlayer.release();
         }
         finish();
         startActivity(player);
