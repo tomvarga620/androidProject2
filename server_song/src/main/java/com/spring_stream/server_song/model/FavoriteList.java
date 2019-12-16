@@ -21,7 +21,7 @@ public class FavoriteList implements Serializable {
     @JsonBackReference
     private Account account;
 
-    @OneToMany
+    @ManyToMany
     @JoinColumn(name = "song_id", referencedColumnName="id")
     private Set<Song> songSet = new HashSet();
 

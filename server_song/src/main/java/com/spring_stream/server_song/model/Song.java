@@ -26,6 +26,10 @@ public class Song {
     String genre;
     String path;
 
+    @ManyToMany
+    @JoinColumn(name = "FavoriteList_id", referencedColumnName="id")
+    private Set<FavoriteList> favListSet = new HashSet();
+
     public Song(String author, String songName, Album album, String genre, String path) {
         this.author = author;
         this.songName = songName;
@@ -84,6 +88,14 @@ public class Song {
         this.path = path;
     }
 
+    public Set<FavoriteList> getFavListSet() {
+        return favListSet;
+    }
+
+    public void setFavListSet(Set<FavoriteList> favListSet) {
+        this.favListSet = favListSet;
+    }
+
     @Override
     public String toString() {
         return "Song{" +
@@ -93,6 +105,7 @@ public class Song {
                 ", album=" + album +
                 ", genre='" + genre + '\'' +
                 ", path='" + path + '\'' +
+                ", favListSet=" + favListSet +
                 '}';
     }
 }
