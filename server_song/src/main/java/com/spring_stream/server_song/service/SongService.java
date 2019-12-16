@@ -1,6 +1,5 @@
 package com.spring_stream.server_song.service;
 
-import com.spring_stream.server_song.model.Album;
 import com.spring_stream.server_song.model.Song;
 import com.spring_stream.server_song.repozitory.SongsRepozitory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +37,9 @@ public class SongService {
         }else {
             return s.get().getPath();
         }
+    }
+
+    public Song findById(Long id) {
+        return songsRepozitory.findById(id).get();
     }
 }

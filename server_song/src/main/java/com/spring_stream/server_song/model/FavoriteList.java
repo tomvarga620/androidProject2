@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class FavoriteList implements Serializable {
@@ -18,6 +20,10 @@ public class FavoriteList implements Serializable {
     @JoinColumn(name = "account_id", nullable = false)
     @JsonBackReference
     private Account account;
+
+    @OneToMany
+    @JoinColumn(name = "song_id", referencedColumnName="id")
+    private Set<Song> songSet = new HashSet();
 
     public FavoriteList(String title, Account account) {
         this.title = title;
@@ -52,12 +58,21 @@ public class FavoriteList implements Serializable {
         this.account = account;
     }
 
+    public Set<Song> getSongSet() {
+        return songSet;
+    }
+
+    public void setSongSet(Set<Song> songSet) {
+        this.songSet = songSet;
+    }
+
     @Override
     public String toString() {
         return "FavoriteList{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", account=" + account +
+                ", songSet=" + songSet +
                 '}';
     }
 }

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 
 import javax.annotation.processing.Generated;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Song {

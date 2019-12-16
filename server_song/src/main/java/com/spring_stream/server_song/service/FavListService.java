@@ -24,4 +24,8 @@ public class FavListService {
     public List<FavoriteList> getAllFavoritList() {
         return favoriteListRepozitory.findAll();
     }
+
+    public FavoriteList getListById(Long id) {
+        return favoriteListRepozitory.findById(id).get();
+    }
 }
