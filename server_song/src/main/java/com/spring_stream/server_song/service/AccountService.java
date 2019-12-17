@@ -43,4 +43,8 @@ public class AccountService {
         }
         return true;
     }
+
+    public Account findByUsername(String username) {
+        return accountRepozitory.findAccountByUsername(username).get();
+    }
 }

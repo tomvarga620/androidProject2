@@ -1,7 +1,10 @@
 package com.spring_stream.server_song.controller;
 
+import com.spring_stream.security.PrimitiveSecurity;
+import com.spring_stream.server_song.model.Account;
 import com.spring_stream.server_song.model.FavoriteList;
 import com.spring_stream.server_song.model.Song;
+import com.spring_stream.server_song.service.AccountService;
 import com.spring_stream.server_song.service.FavListService;
 import com.spring_stream.server_song.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ForkJoinPool;
 
 @RestController
@@ -20,6 +24,9 @@ public class FavListController {
     private FavListService favListService;
     @Autowired
     private SongService songService;
+    private PrimitiveSecurity primitiveSecurity = PrimitiveSecurity.getInstance();
+    @Autowired
+    private AccountService accountService;
 
     @PostMapping(value = "/insertFavoriteList", consumes = MediaType.APPLICATION_JSON_VALUE)
     public FavoriteList insertFavList(@RequestBody FavoriteList favoriteList) {
@@ -32,7 +39,10 @@ public class FavListController {
     }
 
     @GetMapping(value = "/getUsersFavList", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<FavoriteList> getUsersFavList(@RequestParam Long userId) {
+    public List<FavoriteList> getUsersFavList(@RequestParam String token) {
+
+        Long userId =getIdUserByToken(token);
+
         return favListService.getFavListOfUser(userId);
     }
 
@@ -46,7 +56,8 @@ public class FavListController {
     }
 
     @GetMapping(value = "/isSongLiked")
-    public ResponseEntity isSongLiked(@RequestParam Long idSong, @RequestParam Long idAccount) {
+    public ResponseEntity isSongLiked(@RequestParam Long idSong, @RequestParam String token) {
+        Long idAccount = getIdUserByToken(token);
         List<FavoriteList> allUserList = favListService.getFavListOfUser(idAccount);
 
         boolean find = false;
@@ -68,5 +79,17 @@ public class FavListController {
         }else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
+    }
+
+    public Long getIdUserByToken(String token) {
+        for (Map.Entry<String, String> entry: primitiveSecurity.accessTokens.entrySet()) {
+            System.out.println(entry.getKey()+" : "+entry.getValue());
+            if (entry.getValue().equals(token)) {
+                Account account = accountService.findByUsername(entry.getKey());
+                return account.getId();
+            }
+        }
+
+        return Long.valueOf(0);
     }
 }
