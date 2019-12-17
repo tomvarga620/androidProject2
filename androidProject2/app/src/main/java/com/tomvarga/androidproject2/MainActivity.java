@@ -17,6 +17,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.tomvarga.androidproject2.POJO.Album;
+import com.tomvarga.androidproject2.RecycleViewAdapters.RecyclerViewAdapterAlbums;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -122,8 +124,6 @@ public class MainActivity extends AppCompatActivity {
 
         myQueue.add(request);
     }
-
-    private RecyclerView.LayoutManager layoutManager;
 
     private void initRecycleView() {
         RecyclerView recyclerView = findViewById(R.id.recycleViewAlbums);

@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="50dp"
         android:clickable="true"
 
         app:backgroundTint="?attr/btnplaybkgcolor"
@@ -43,17 +43,15 @@
         android:layout_height="wrap_content"
 
 
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="32dp"
         android:clickable="true"
         android:src="@drawable/ic_action_right"
         app:backgroundTint="?attr/btnplaybkgcolor"
         app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/playOrPause"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.28"
         app:layout_constraintStart_toEndOf="@+id/playOrPause"
-        app:layout_constraintTop_toBottomOf="@+id/genreTXV"
+        app:layout_constraintTop_toTopOf="@+id/playOrPause"
         app:tint="?attr/btnplaycolor" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -62,17 +60,15 @@
         android:layout_height="wrap_content"
 
 
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="32dp"
         android:clickable="true"
         android:src="@drawable/ic_action_left"
         app:backgroundTint="?attr/btnplaybkgcolor"
         app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/playOrPause"
         app:layout_constraintEnd_toStartOf="@+id/playOrPause"
         app:layout_constraintHorizontal_bias="0.726"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/genreTXV"
+        app:layout_constraintTop_toTopOf="@+id/playOrPause"
         app:tint="?attr/btnplaycolor" />
 
     <ImageView
@@ -172,6 +168,20 @@
         android:textSize="@dimen/_18sdp"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/favoriteSong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="?attr/btnplaybkgcolor"
+        app:tint="?attr/btnplaycolor"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/playOrPause"
+        app:layout_constraintEnd_toStartOf="@+id/rewindBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/playOrPause"
+        android:src="@drawable/ic_action_notliked" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,6 +56,8 @@ public class RecyclerViewAdapterSongs extends RecyclerView.Adapter<RecyclerViewA
                 player.putExtra("genre",listOfSongs.get(position).getGenre());
                 player.putExtra("songName",listOfSongs.get(position).getSongName());
                 view.getContext().startActivity(player);
+
+
             }
         });
     }

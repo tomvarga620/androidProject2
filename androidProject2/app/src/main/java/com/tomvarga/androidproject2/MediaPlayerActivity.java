@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tomvarga.androidproject2.POJO.Song;
 
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -37,6 +38,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
     private FloatingActionButton player;
     private FloatingActionButton previousSong;
     private FloatingActionButton nextSong;
+    private FloatingActionButton favSong;
 
     private boolean playPause = false;
     private boolean initialStage = true;
@@ -99,6 +101,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
         player = findViewById(R.id.playOrPause);
         previousSong = findViewById(R.id.rewindBack);
         nextSong = findViewById(R.id.rewindForward);
+        favSong = findViewById(R.id.favoriteSong);
 
         currentTime = findViewById(R.id.currentTime);
         limitTime = findViewById(R.id.limitTime);
@@ -215,7 +218,12 @@ public class MediaPlayerActivity extends AppCompatActivity {
             }
         });
 
-
+        favSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAddingDialog();
+            }
+        });
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -447,5 +455,10 @@ public class MediaPlayerActivity extends AppCompatActivity {
         }
         finish();
         startActivity(player);
+    }
+
+    public void openAddingDialog() {
+        AddToFavListDialog dialog = new AddToFavListDialog();
+        dialog.show(getSupportFragmentManager(),"add_song_to_favlist_dialog");
     }
 }

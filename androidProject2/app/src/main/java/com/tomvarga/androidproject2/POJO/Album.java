@@ -1,6 +1,4 @@
-package com.tomvarga.androidproject2;
-
-import java.util.Arrays;
+package com.tomvarga.androidproject2.POJO;
 
 public class Album {
 

@@ -1,4 +1,4 @@
-package com.tomvarga.androidproject2;
+package com.tomvarga.androidproject2.POJO;
 
 public class Song {
     private Long id;
