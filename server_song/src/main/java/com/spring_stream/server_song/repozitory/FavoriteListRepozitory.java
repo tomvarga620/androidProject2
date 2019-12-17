@@ -1,6 +1,7 @@
 package com.spring_stream.server_song.repozitory;
 
 import com.spring_stream.server_song.model.FavoriteList;
+import com.spring_stream.server_song.model.Song;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

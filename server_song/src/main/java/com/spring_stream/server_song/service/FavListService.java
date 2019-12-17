@@ -28,4 +28,5 @@ public class FavListService {
     public FavoriteList getListById(Long id) {
         return favoriteListRepozitory.findById(id).get();
     }
+
 }
