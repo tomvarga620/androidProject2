@@ -1,4 +1,4 @@
-package com.tomvarga.androidproject2;
+package com.tomvarga.androidproject2.RecycleViewAdapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,12 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.tomvarga.androidproject2.POJO.Album;
+import com.tomvarga.androidproject2.ListOfAlbumSongs;
+import com.tomvarga.androidproject2.R;
+import com.tomvarga.androidproject2.SharedPrefs;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -52,7 +56,7 @@ public class RecyclerViewAdapterAlbums extends RecyclerView.Adapter<RecyclerView
 
             @Override
             public void onClick(View view) {
-                Intent listOfAlbumSongs = new Intent(view.getContext(),ListOfAlbumSongs.class);
+                Intent listOfAlbumSongs = new Intent(view.getContext(), ListOfAlbumSongs.class);
                 listOfAlbumSongs.putExtra("idAlbum",listOfALbums.get(position).getId());
                 listOfAlbumSongs.putExtra("albumName",listOfALbums.get(position).getAlbumName());
 

@@ -1,4 +1,4 @@
-package com.tomvarga.androidproject2;
+package com.tomvarga.androidproject2.RecycleViewAdapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.tomvarga.androidproject2.MediaPlayerActivity;
+import com.tomvarga.androidproject2.R;
+import com.tomvarga.androidproject2.POJO.Song;
 
 import java.util.ArrayList;
 
