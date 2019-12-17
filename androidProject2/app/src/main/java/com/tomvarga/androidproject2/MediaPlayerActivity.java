@@ -458,7 +458,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
     }
 
     public void openAddingDialog() {
-        AddToFavListDialog dialog = new AddToFavListDialog();
+        AddToFavListDialog dialog = new AddToFavListDialog(id);
         dialog.show(getSupportFragmentManager(),"add_song_to_favlist_dialog");
     }
 }

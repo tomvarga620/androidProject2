@@ -39,6 +39,11 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
     SharedPrefs modSharedPrefs;
 
     View view;
+    Long idSong;
+
+    public AddToFavListDialog(Long idSong) {
+        this.idSong = idSong;
+    }
 
     @NonNull
     @Override
@@ -75,7 +80,7 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
 
     private void initRecycleView() {
         RecyclerView recyclerView = view.findViewById(R.id.recycleChoseFavList);
-        adapter = new RecycleViewAdapterChooseFavList(list_favList,view.getContext());
+        adapter = new RecycleViewAdapterChooseFavList(list_favList,view.getContext(),idSong);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }

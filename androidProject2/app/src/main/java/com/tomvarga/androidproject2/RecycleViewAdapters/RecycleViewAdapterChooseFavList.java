@@ -18,10 +18,12 @@ public class RecycleViewAdapterChooseFavList extends RecyclerView.Adapter<Recycl
 
     ArrayList<FavoritList> listOfFavLists;
     Context context;
+    Long idSong;
 
-    public RecycleViewAdapterChooseFavList(ArrayList<FavoritList> listOfFavLists, Context context) {
+    public RecycleViewAdapterChooseFavList(ArrayList<FavoritList> listOfFavLists, Context context, Long idSong) {
         this.listOfFavLists = listOfFavLists;
         this.context = context;
+        this.idSong = idSong;
     }
 
     @NonNull
@@ -35,6 +37,9 @@ public class RecycleViewAdapterChooseFavList extends RecyclerView.Adapter<Recycl
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.checkBox.setText(listOfFavLists.get(position).getTitle());
+        if (listOfFavLists.get(position).getSongs().contains(idSong)){
+            holder.checkBox.setChecked(true);
+        }
     }
 
     @Override
