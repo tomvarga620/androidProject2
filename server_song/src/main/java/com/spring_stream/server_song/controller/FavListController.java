@@ -56,7 +56,7 @@ public class FavListController {
     }
 
     @GetMapping(value = "/isSongLiked")
-    public ResponseEntity isSongLiked(@RequestParam Long idSong, @RequestParam String token) {
+    public ResponseEntity<String> isSongLiked(@RequestParam Long idSong, @RequestParam String token) {
         Long idAccount = getIdUserByToken(token);
         List<FavoriteList> allUserList = favListService.getFavListOfUser(idAccount);
 
@@ -75,9 +75,9 @@ public class FavListController {
         }
 
         if (find) {
-            return new ResponseEntity(HttpStatus.FOUND);
+            return new ResponseEntity("liked",HttpStatus.OK);
         }else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity("notliked",HttpStatus.OK);
         }
     }
 
