@@ -40,9 +40,11 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
 
     View view;
     Long idSong;
+    String token;
 
-    public AddToFavListDialog(Long idSong) {
+    public AddToFavListDialog(Long idSong, String token) {
         this.idSong = idSong;
+        this.token = token;
     }
 
     @NonNull
@@ -55,7 +57,6 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
         view = inflater.inflate(R.layout.layout_favllist_dialog,null);
 
         modSharedPrefs = new SharedPrefs(view.getContext());
-
         initRecycleView();
         getData();
 
@@ -88,7 +89,7 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
     private void getData() {
         myQueue = Volley.newRequestQueue(view.getContext());
 
-        String url = modSharedPrefs.getIP()+"/getUsersFavList?userId="+3;
+        String url = modSharedPrefs.getIP()+"/getUsersFavList?token="+token;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {

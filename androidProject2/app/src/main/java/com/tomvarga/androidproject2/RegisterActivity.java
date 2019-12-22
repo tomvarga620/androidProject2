@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.tomvarga.androidproject2.UserData.RegistrationData;
+import com.tomvarga.androidproject2.POJO.UserData.RegistrationData;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

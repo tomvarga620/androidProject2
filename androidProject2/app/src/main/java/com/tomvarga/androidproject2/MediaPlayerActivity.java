@@ -19,6 +19,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -233,6 +239,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
         username = getSharedPreferences("user", MODE_PRIVATE).getString("username","default");
         token = getSharedPreferences("user", MODE_PRIVATE).getString("token","default");
         initialClick();
+        isSongLiked();
     }
 
     @Override
@@ -458,7 +465,32 @@ public class MediaPlayerActivity extends AppCompatActivity {
     }
 
     public void openAddingDialog() {
-        AddToFavListDialog dialog = new AddToFavListDialog(id);
+        AddToFavListDialog dialog = new AddToFavListDialog(id,token);
         dialog.show(getSupportFragmentManager(),"add_song_to_favlist_dialog");
+    }
+
+    public void isSongLiked() {
+        String url = modSharedPrefs.getIP()+"/isSongLiked?idSong="+id+"&token="+token;
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equalsIgnoreCase("notliked")){
+                            favSong.setImageResource(R.drawable.ic_action_notliked);
+                        }
+                        if (response.equalsIgnoreCase("liked")) {
+                            favSong.setImageResource(R.drawable.ic_action_liked);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(stringRequest);
     }
 }

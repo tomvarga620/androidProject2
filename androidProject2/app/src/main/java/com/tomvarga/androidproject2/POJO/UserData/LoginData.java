@@ -1,4 +1,4 @@
-package com.tomvarga.androidproject2.UserData;
+package com.tomvarga.androidproject2.POJO.UserData;
 
 public class LoginData {
     private String username;

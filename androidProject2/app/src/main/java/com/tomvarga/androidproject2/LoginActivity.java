@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.tomvarga.androidproject2.UserData.LoginData;
+import com.tomvarga.androidproject2.POJO.UserData.LoginData;
 
 import java.io.IOException;
 

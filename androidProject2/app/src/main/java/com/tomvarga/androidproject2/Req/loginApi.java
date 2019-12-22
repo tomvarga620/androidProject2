@@ -1,6 +1,6 @@
 package com.tomvarga.androidproject2.Req;
 
-import com.tomvarga.androidproject2.UserData.LoginData;
+import com.tomvarga.androidproject2.POJO.UserData.LoginData;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
