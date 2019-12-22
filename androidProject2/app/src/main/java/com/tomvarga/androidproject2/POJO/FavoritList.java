@@ -6,9 +6,9 @@ public class FavoritList {
 
     private Long id;
     private String title;
-    private ArrayList<Long> songs;
+    private ArrayList<Song> songs;
 
-    public FavoritList(Long id, String title, ArrayList<Long> songs) {
+    public FavoritList(Long id, String title, ArrayList<Song> songs) {
         this.id = id;
         this.title = title;
         this.songs = songs;
@@ -30,11 +30,11 @@ public class FavoritList {
         this.title = title;
     }
 
-    public ArrayList<Long> getSongs() {
+    public ArrayList<Song> getSongs() {
         return songs;
     }
 
-    public void setSongs(ArrayList<Long> songs) {
+    public void setSongs(ArrayList<Song> songs) {
         this.songs = songs;
     }
 }

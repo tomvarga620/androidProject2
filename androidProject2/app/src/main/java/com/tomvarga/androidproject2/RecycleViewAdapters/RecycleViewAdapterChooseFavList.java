@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tomvarga.androidproject2.POJO.FavoritList;
+import com.tomvarga.androidproject2.POJO.Song;
 import com.tomvarga.androidproject2.R;
 
 import java.util.ArrayList;
@@ -37,8 +38,13 @@ public class RecycleViewAdapterChooseFavList extends RecyclerView.Adapter<Recycl
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.checkBox.setText(listOfFavLists.get(position).getTitle());
-        if (listOfFavLists.get(position).getSongs().contains(idSong)){
-            holder.checkBox.setChecked(true);
+
+        ArrayList<Song> songs =  listOfFavLists.get(position).getSongs();
+        for(int a = 0; a<songs.size(); a++) {
+            if (songs.get(a).getId() == idSong) {
+                holder.checkBox.setChecked(true);
+                break;
+            }
         }
     }
 

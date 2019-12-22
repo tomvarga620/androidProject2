@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.tomvarga.androidproject2.POJO.FavoritList;
+import com.tomvarga.androidproject2.POJO.Song;
 import com.tomvarga.androidproject2.RecycleViewAdapters.RecycleViewAdapterChooseFavList;
 
 import org.json.JSONArray;
@@ -103,10 +104,11 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
                                 String name = favList.getString("title");
 
                                 JSONArray songsJson = favList.getJSONArray("songSet");
-                                ArrayList<Long> songsArray = new ArrayList<>();
+                                ArrayList<Song> songsArray = new ArrayList<>();
                                 for (int a = 0; a < songsJson.length(); a++) {
                                     JSONObject song = songsJson.getJSONObject(a);
-                                    songsArray.add(song.getLong("id"));
+                                    Song tempSong = new Song(song.getLong("id"),"","","","");
+                                    songsArray.add(tempSong);
                                 }
 
                                 FavoritList favoritList = new FavoritList(id,name,songsArray);
