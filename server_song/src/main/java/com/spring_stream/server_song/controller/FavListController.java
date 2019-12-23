@@ -28,8 +28,9 @@ public class FavListController {
     @Autowired
     private AccountService accountService;
 
-    @PostMapping(value = "/insertFavoriteList", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public FavoriteList insertFavList(@RequestBody FavoriteList favoriteList) {
+    @PostMapping(value = "/insertFavoriteList")
+    public FavoriteList insertFavList(@RequestParam String token, @RequestParam String title) {
+        FavoriteList favoriteList = new FavoriteList(title,getAccountByToken(token));
         return favListService.insertFavList(favoriteList);
     }
 
@@ -89,7 +90,16 @@ public class FavListController {
                 return account.getId();
             }
         }
-
         return Long.valueOf(0);
+    }
+
+    public Account getAccountByToken(String token) {
+        for (Map.Entry<String, String> entry: primitiveSecurity.accessTokens.entrySet()) {
+            System.out.println(entry.getKey()+" : "+entry.getValue());
+            if (entry.getValue().equals(token)) {
+                return accountService.findByUsername(entry.getKey());
+            }
+        }
+        return null;
     }
 }
