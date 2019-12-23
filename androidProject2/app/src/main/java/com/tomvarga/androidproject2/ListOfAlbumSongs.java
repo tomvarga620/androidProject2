@@ -120,7 +120,7 @@ public class ListOfAlbumSongs extends AppCompatActivity {
                                 String songName=song.getString("songName");
                                 String genre=song.getString("genre");
 
-                                Song songObject = new Song(id,author,songName,genre,albumName);
+                                Song songObject = new Song(id,author,songName,genre,albumName,"");
 
                                 list_songs.add(songObject);
 

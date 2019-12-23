@@ -6,14 +6,16 @@ public class Song {
     private String songName;
     private String genre;
     private String album;
+    private String path;
 
 
-    public Song(Long id, String author, String songName,String genre, String album) {
+    public Song(Long id, String author, String songName,String genre, String album,String path) {
         this.id = id;
         this.author = author;
         this.songName = songName;
         this.genre = genre;
         this.album = album;
+        this.path = path;
     }
 
 
@@ -55,6 +57,14 @@ public class Song {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     @Override

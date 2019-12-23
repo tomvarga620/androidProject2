@@ -107,7 +107,7 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
                                 ArrayList<Song> songsArray = new ArrayList<>();
                                 for (int a = 0; a < songsJson.length(); a++) {
                                     JSONObject song = songsJson.getJSONObject(a);
-                                    Song tempSong = new Song(song.getLong("id"),"","","","");
+                                    Song tempSong = new Song(song.getLong("id"),"","","","","");
                                     songsArray.add(tempSong);
                                 }
 

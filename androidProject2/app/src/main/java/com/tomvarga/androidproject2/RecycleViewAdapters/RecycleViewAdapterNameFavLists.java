@@ -1,9 +1,14 @@
 package com.tomvarga.androidproject2.RecycleViewAdapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,16 +17,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tomvarga.androidproject2.POJO.FavoritList;
 import com.tomvarga.androidproject2.R;
+import com.tomvarga.androidproject2.SharedPrefs;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<RecycleViewAdapterNameFavLists.ViewHolder> {
 
 
     ArrayList<FavoritList> favoritLists;
+    SharedPrefs sharedPrefs;
 
     public RecycleViewAdapterNameFavLists(ArrayList<FavoritList> favoritLists, Context context) {
         this.favoritLists = favoritLists;
+        sharedPrefs = new SharedPrefs(context);
+
     }
 
     @NonNull
@@ -34,7 +46,36 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.name.setText(favoritLists.get(position).getTitle());
+        FavoritList favoritList = favoritLists.get(position);
+        holder.name.setText(favoritList.getTitle());
+
+        int size = favoritList.getSongs().size();
+        ArrayList<ImageView> covers = new ArrayList<>();
+        covers.add(holder.first);
+        covers.add(holder.second);
+        covers.add(holder.third);
+        covers.add(holder.fourth);
+
+
+        if (size > 4){
+            for (int a = 0; a<4; a++) {
+                new RecycleViewAdapterNameFavLists
+                        .SendHttpRequestTask(
+                        (long) 2,
+                                covers.get(a))
+                        .execute();
+            }
+        }else {
+            for (int a=0; a<favoritList.getSongs().size();a++) {
+                new RecycleViewAdapterNameFavLists
+                        .SendHttpRequestTask(
+                        (long) 2,
+                        covers.get(a))
+                        .execute();
+            }
+        }
+
+
     }
 
     @Override
@@ -45,13 +86,60 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;
+        ImageView first;
+        ImageView second;
+        ImageView third;
+        ImageView fourth;
         LinearLayout parent;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.nameOfList);
+            first = itemView.findViewById(R.id.firstImg);
+            second = itemView.findViewById(R.id.secondImg);
+            third = itemView.findViewById(R.id.thirdImg);
+            fourth = itemView.findViewById(R.id.fourImg);
             parent = itemView.findViewById(R.id.nameOfListParent);
+        }
+    }
+
+    private class SendHttpRequestTask extends AsyncTask<String, Void, Bitmap> {
+
+        Long songId;
+        ImageView albumCover;
+
+        SendHttpRequestTask(Long albumId, ImageView albumCover) {
+            this.songId =albumId;
+            this.albumCover = albumCover;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            try {
+                //ipconfig
+                URL url = new URL(sharedPrefs.getIP()+"/getAlbumCover?id="+songId);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+
+                final int THUMBSIZE = 254;
+
+                Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(myBitmap,
+                        THUMBSIZE, THUMBSIZE);
+
+
+                return ThumbImage;
+            }catch (Exception e){
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            albumCover.setImageBitmap(result);
         }
     }
 }
