@@ -3,7 +3,6 @@ package com.tomvarga.androidproject2.RecycleViewAdapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,26 +55,29 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
         covers.add(holder.third);
         covers.add(holder.fourth);
 
-
         if (size > 4){
             for (int a = 0; a<4; a++) {
                 new RecycleViewAdapterNameFavLists
                         .SendHttpRequestTask(
-                        (long) 2,
-                                covers.get(a))
+                        favoritList.getSongs().get(a).getId(),
+                        covers.get(a))
                         .execute();
             }
         }else {
             for (int a=0; a<favoritList.getSongs().size();a++) {
                 new RecycleViewAdapterNameFavLists
                         .SendHttpRequestTask(
-                        (long) 2,
+                        favoritList.getSongs().get(a).getId(),
                         covers.get(a))
                         .execute();
             }
         }
+        holder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-
+            }
+        });
     }
 
     @Override
@@ -118,20 +120,13 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
         protected Bitmap doInBackground(String... params) {
             try {
                 //ipconfig
-                URL url = new URL(sharedPrefs.getIP()+"/getAlbumCover?id="+songId);
+                URL url = new URL(sharedPrefs.getIP()+"/getSongImageThumbnail?id="+songId);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
-
-                final int THUMBSIZE = 254;
-
-                Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(myBitmap,
-                        THUMBSIZE, THUMBSIZE);
-
-
-                return ThumbImage;
+                return myBitmap;
             }catch (Exception e){
             }
             return null;
