@@ -18,6 +18,8 @@ import java.util.ArrayList;
 public class RecycleViewAdapterChooseFavList extends RecyclerView.Adapter<RecycleViewAdapterChooseFavList.ViewHolder> {
 
     ArrayList<FavoritList> listOfFavLists;
+    ArrayList<Long> listWaitingForAdding;
+    ArrayList<Long> listWaitingForRemoving;
     Context context;
     Long idSong;
 
@@ -25,6 +27,8 @@ public class RecycleViewAdapterChooseFavList extends RecyclerView.Adapter<Recycl
         this.listOfFavLists = listOfFavLists;
         this.context = context;
         this.idSong = idSong;
+        listWaitingForAdding = new ArrayList<>();
+        listWaitingForRemoving = new ArrayList<>();
     }
 
     @NonNull
@@ -36,9 +40,21 @@ public class RecycleViewAdapterChooseFavList extends RecyclerView.Adapter<Recycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.checkBox.setText(listOfFavLists.get(position).getTitle());
-
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.checkBox.isChecked()) {
+                    listWaitingForRemoving.add(listOfFavLists.get(position).getId());
+                    holder.checkBox.setChecked(false);
+                }
+                if (!holder.checkBox.isChecked()){
+                    listWaitingForAdding.add(listOfFavLists.get(position).getId());
+                    holder.checkBox.setChecked(true);
+                }
+            }
+        });
         ArrayList<Song> songs =  listOfFavLists.get(position).getSongs();
         for(int a = 0; a<songs.size(); a++) {
             if (songs.get(a).getId() == idSong) {
@@ -51,6 +67,14 @@ public class RecycleViewAdapterChooseFavList extends RecyclerView.Adapter<Recycl
     @Override
     public int getItemCount() {
         return listOfFavLists.size();
+    }
+
+    public ArrayList<Long> getListsForAdding() {
+        return listWaitingForAdding;
+    }
+
+    public ArrayList<Long> getListsForRemoving() {
+        return listWaitingForRemoving;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

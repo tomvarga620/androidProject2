@@ -3,6 +3,7 @@ package com.tomvarga.androidproject2.RecycleViewAdapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,7 +127,13 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return myBitmap;
+
+                final int THUMBSIZE = 100;
+
+                Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(myBitmap,
+                        THUMBSIZE, THUMBSIZE);
+
+                return ThumbImage;
             }catch (Exception e){
             }
             return null;

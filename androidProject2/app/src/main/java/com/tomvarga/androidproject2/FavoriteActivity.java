@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -143,7 +143,7 @@ public class FavoriteActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.favorit_list_RecycleView);
         adapter = new RecycleViewAdapterNameFavLists(favoritLists,this);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 }
