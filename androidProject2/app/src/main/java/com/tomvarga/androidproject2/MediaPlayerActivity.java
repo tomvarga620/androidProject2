@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class MediaPlayerActivity extends AppCompatActivity {
+public class MediaPlayerActivity extends AppCompatActivity{
 
     private FloatingActionButton player;
     private FloatingActionButton previousSong;
@@ -316,7 +316,6 @@ public class MediaPlayerActivity extends AppCompatActivity {
         }
     }
 
-
     class Player extends AsyncTask<String, Void, Boolean> {
 
         @Override
@@ -468,7 +467,6 @@ public class MediaPlayerActivity extends AppCompatActivity {
         AddToFavListDialog dialog = new AddToFavListDialog(id,token);
         dialog.show(getSupportFragmentManager(),"add_song_to_favlist_dialog");
     }
-
     public void isSongLiked() {
         String url = modSharedPrefs.getIP()+"/isSongLiked?idSong="+id+"&token="+token;
 

@@ -82,6 +82,12 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
                         for (Long idList: forAdding) {
                             sendPostRequestAddToList(idList);
                         }
+
+                        for (Long idList: forRemoving) {
+                            sendPostRequestRemoveFromList(idList);
+                        }
+
+
                     }
                 });
 
@@ -190,5 +196,24 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
         }) {
         };
         myQueue.add(jsonOblect);
+    }
+
+    private void sendPostRequestRemoveFromList(Long idList) {
+
+        String URL = modSharedPrefs.getIP()+"/removeSongFromFavList?idList="+idList+"&idSong="+idSong;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(view.getContext(), "Response:  successfully done", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(view.getContext(), "Error: something wrong", Toast.LENGTH_LONG).show();
+            }
+        }) {
+        };
+        myQueue.add(jsonObjectRequest);
     }
 }
