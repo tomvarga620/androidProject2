@@ -82,6 +82,8 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
                         for (Long idList: forAdding) {
                             sendPostRequestAddToList(idList);
                         }
+
+
                     }
                 });
 
