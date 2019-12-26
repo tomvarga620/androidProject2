@@ -79,7 +79,7 @@ public class AlbumController {
         Song song = songService.findById(id);
 
         File image = new File(albumService.findImagePath(song.getAlbum().getId()));
-        Image thumbnail = ImageIO.read(image).getScaledInstance(100, 100, BufferedImage.SCALE_SMOOTH);
+        Image thumbnail = ImageIO.read(image).getScaledInstance(200, 200, BufferedImage.SCALE_SMOOTH);
 
         // Create a buffered image with transparency
         BufferedImage bimage = new BufferedImage(thumbnail.getWidth(null), thumbnail.getHeight(null), BufferedImage.TYPE_INT_ARGB);
