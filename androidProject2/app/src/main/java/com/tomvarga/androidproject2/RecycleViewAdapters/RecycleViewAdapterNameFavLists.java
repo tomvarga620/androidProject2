@@ -128,7 +128,7 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
 
-                final int THUMBSIZE = 100;
+                final int THUMBSIZE = 200;
 
                 Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(myBitmap,
                         THUMBSIZE, THUMBSIZE);
