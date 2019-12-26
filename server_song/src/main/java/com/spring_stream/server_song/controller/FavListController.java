@@ -56,6 +56,15 @@ public class FavListController {
         return favListService.insertFavList(favoriteList);
     }
 
+    @PostMapping(value = "/removeSongFromFavList",  produces = MediaType.APPLICATION_JSON_VALUE)
+    public FavoriteList removeSongFromList(@RequestParam Long idList,@RequestParam Long idSong)  {
+        FavoriteList favoriteList = favListService.getListById(idList);
+        Song song = songService.findById(idSong);
+
+        favoriteList.getSongSet().remove(song);
+        return favListService.insertFavList(favoriteList);
+    }
+
     @GetMapping(value = "/isSongLiked")
     public ResponseEntity<String> isSongLiked(@RequestParam Long idSong, @RequestParam String token) {
         Long idAccount = getIdUserByToken(token);
