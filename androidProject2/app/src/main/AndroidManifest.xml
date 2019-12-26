@@ -29,6 +29,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".MediaPlayerActivity" />
+        <activity android:name=".FavoriteSongsFromList"/>
 
         <meta-data
             android:name="preloaded_fonts"

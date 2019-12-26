@@ -1,6 +1,8 @@
 package com.tomvarga.androidproject2.RecycleViewAdapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.tomvarga.androidproject2.FavoriteSongsFromList;
 import com.tomvarga.androidproject2.POJO.FavoritList;
 import com.tomvarga.androidproject2.R;
 import com.tomvarga.androidproject2.SharedPrefs;
@@ -23,6 +27,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<RecycleViewAdapterNameFavLists.ViewHolder> {
 
@@ -46,7 +52,7 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FavoritList favoritList = favoritLists.get(position);
+        final FavoritList favoritList = favoritLists.get(position);
         holder.name.setText(favoritList.getTitle());
 
         int size = favoritList.getSongs().size();
@@ -74,9 +80,29 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
             }
         }
         holder.parent.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                Intent player = new Intent(view.getContext(), FavoriteSongsFromList.class);
 
+                player.putExtra("title",favoritList.getTitle());
+
+                SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("songFarListPreferences", MODE_PRIVATE);
+                SharedPreferences.Editor sharedPreferencesEditor1 = sharedPreferences.edit();
+                Gson gson = new Gson();
+                String favoriteList = gson.toJson(favoritList.getSongs());
+                sharedPreferencesEditor1.putString("currentFarListSong",favoriteList);
+
+
+                sharedPreferences = view.getContext().getSharedPreferences("songListPreferences", MODE_PRIVATE);
+                SharedPreferences.Editor sharedPreferencesEditor2 = sharedPreferences.edit();
+                sharedPreferencesEditor2.putString("currentListSong",favoriteList);
+
+                sharedPreferencesEditor1.apply();
+                sharedPreferencesEditor2.apply();
+
+
+                view.getContext().startActivity(player);
             }
         });
     }
