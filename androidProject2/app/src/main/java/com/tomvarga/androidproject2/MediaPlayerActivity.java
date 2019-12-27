@@ -69,6 +69,8 @@ public class MediaPlayerActivity extends AppCompatActivity{
     String genre;
     String songName;
 
+    boolean inFavoriteLiST = false;
+
     TextView authorTXV;
     TextView albumTXV;
     TextView genreTXV;
@@ -123,6 +125,7 @@ public class MediaPlayerActivity extends AppCompatActivity{
         genre = b.getString("genre");
         songName = b.getString("songName");
 
+        inFavoriteLiST = b.getBoolean("inFavoritList");
         loadCurrentSongList();
 
         authorTXV.setText(author);
@@ -155,8 +158,16 @@ public class MediaPlayerActivity extends AppCompatActivity{
                 }
                 player.putExtra("id",song.getId());
                 player.putExtra("author",song.getAuthor());
-                player.putExtra("album",album);
-                player.putExtra("albumId",albumId);
+                if (!inFavoriteLiST){
+                    player.putExtra("album",album);
+                    player.putExtra("albumId",albumId);
+                    player.putExtra("inFavoritList",false);
+                }else {
+                    player.putExtra("album",song.getAlbum().getAlbumName());
+                    player.putExtra("albumId",song.getAlbum().getId());
+                    player.putExtra("inFavoritList",true);
+
+                }
                 player.putExtra("genre",song.getGenre());
                 player.putExtra("songName",song.getSongName());
                 if (mediaPlayer.isPlaying()) {
@@ -419,13 +430,15 @@ public class MediaPlayerActivity extends AppCompatActivity{
     }
 
     public void loadCurrentSongList() {
-       SharedPreferences sharedPreferences = getSharedPreferences("songListPreferences", MODE_PRIVATE);
-       Gson gson = new Gson();
-       String json = sharedPreferences.getString("currentListSong",null);
+        Gson gson = new Gson();
+        String json;
+            SharedPreferences sharedPreferences = getSharedPreferences("songListPreferences", MODE_PRIVATE);
+            json = sharedPreferences.getString("currentListSong",null);
+
        Type type = new TypeToken<ArrayList<Song>>() {}.getType();
        currentSongList = gson.fromJson(json,type);
 
-       for (int i=0;i<currentSongList.size();i++) {
+        for (int i=0;i<currentSongList.size();i++) {
            if (id == currentSongList.get(i).getId()) {
                currentSongIndex = i;
                break;
@@ -449,8 +462,15 @@ public class MediaPlayerActivity extends AppCompatActivity{
         }
         player.putExtra("id",song.getId());
         player.putExtra("author",song.getAuthor());
-        player.putExtra("album",album);
-        player.putExtra("albumId",albumId);
+        if (!inFavoriteLiST){
+            player.putExtra("album",album);
+            player.putExtra("albumId",albumId);
+            player.putExtra("inFavoritList",false);
+        }else {
+            player.putExtra("album",song.getAlbum().getAlbumName());
+            player.putExtra("albumId",song.getAlbum().getId());
+            player.putExtra("inFavoritList",true);
+        }
         player.putExtra("genre",song.getGenre());
         player.putExtra("songName",song.getSongName());
         if (mediaPlayer.isPlaying()) {

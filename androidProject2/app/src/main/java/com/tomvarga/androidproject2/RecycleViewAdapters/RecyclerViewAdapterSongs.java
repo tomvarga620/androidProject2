@@ -58,9 +58,12 @@ public class RecyclerViewAdapterSongs extends RecyclerView.Adapter<RecyclerViewA
                 if(albumId == -1 && albumName.equalsIgnoreCase("favListCase")){
                     player.putExtra("album",listOfSongs.get(position).getAlbum().getAlbumName());
                     player.putExtra("albumId",listOfSongs.get(position).getAlbum().getId());
+                    player.putExtra("inFavoritList",true);
                 }else{
                     player.putExtra("album",albumName);
                     player.putExtra("albumId",albumId);
+                    player.putExtra("inFavoritList",false);
+
                 }
                 player.putExtra("genre",listOfSongs.get(position).getGenre());
                 player.putExtra("songName",listOfSongs.get(position).getSongName());

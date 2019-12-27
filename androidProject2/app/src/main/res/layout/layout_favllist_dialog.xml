@@ -18,7 +18,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleChoseFavList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_137sdp"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="15dp" />
 

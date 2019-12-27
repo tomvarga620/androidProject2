@@ -136,7 +136,15 @@ public class FavoriteSongsFromList extends AppCompatActivity {
                 }
 
                 if (position == currentFarSongList.size()-1){
+                    Toast.makeText(FavoriteSongsFromList.this,"Everything loaded",Toast.LENGTH_LONG).show();
                     adapter.notifyDataSetChanged();
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("songListPreferences", MODE_PRIVATE);
+                    SharedPreferences.Editor sharedPreferencesEditor2 = sharedPreferences.edit();
+                    Gson gson = new Gson();
+                    String favoriteList = gson.toJson(currentFarSongList);
+                    sharedPreferencesEditor2.putString("currentListSong",favoriteList);
+                    sharedPreferencesEditor2.apply();
                 }
             }
         }, new Response.ErrorListener() {
