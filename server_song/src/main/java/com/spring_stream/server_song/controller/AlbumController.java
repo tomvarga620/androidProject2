@@ -18,7 +18,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class AlbumController {
@@ -95,5 +97,14 @@ public class AlbumController {
 
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         IOUtils.copy(in, response.getOutputStream());
+    }
+
+    @GetMapping(value = "getAlbumByIdSong",produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String,Object> getAlbumByIdSong(@RequestParam Long id){
+        Album album = songService.findById(id).getAlbum();
+        Map<String,Object> response = new HashMap<>();
+        response.put("id",album.getId());
+        response.put("albumName",album.getAlbumName());
+        return response;
     }
 }
