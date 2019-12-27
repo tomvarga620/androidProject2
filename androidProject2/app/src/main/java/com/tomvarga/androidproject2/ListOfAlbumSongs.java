@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
+import com.tomvarga.androidproject2.POJO.Album;
 import com.tomvarga.androidproject2.POJO.Song;
 import com.tomvarga.androidproject2.RecycleViewAdapters.RecyclerViewAdapterSongs;
 
@@ -120,7 +121,7 @@ public class ListOfAlbumSongs extends AppCompatActivity {
                                 String songName=song.getString("songName");
                                 String genre=song.getString("genre");
 
-                                Song songObject = new Song(id,author,songName,genre,albumName,"");
+                                Song songObject = new Song(id,author,songName,genre,new Album((long) 0,albumName),"");
 
                                 list_songs.add(songObject);
 

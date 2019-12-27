@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.tomvarga.androidproject2.POJO.Album;
 import com.tomvarga.androidproject2.POJO.FavoritList;
 import com.tomvarga.androidproject2.POJO.Song;
 import com.tomvarga.androidproject2.RecycleViewAdapters.RecycleViewAdapterNameFavLists;
@@ -113,7 +114,7 @@ public class FavoriteActivity extends AppCompatActivity {
                                             song.getString("author"),
                                             song.getString("songName"),
                                             song.getString("genre"),
-                                            "default",
+                                            new Album((long) 0,"default"),
                                             song.getString("path")
                                     );
                                     songsArray.add(tempSong);

@@ -5,11 +5,11 @@ public class Song {
     private String author;
     private String songName;
     private String genre;
-    private String album;
+    private Album album;
     private String path;
 
 
-    public Song(Long id, String author, String songName,String genre, String album,String path) {
+    public Song(Long id, String author, String songName,String genre, Album album,String path) {
         this.id = id;
         this.author = author;
         this.songName = songName;
@@ -43,11 +43,11 @@ public class Song {
         this.songName = songName;
     }
 
-    public String getAlbum() {
+    public Album getAlbum() {
         return album;
     }
 
-    public void setAlbum(String album) {
+    public void setAlbum(Album album) {
         this.album = album;
     }
 
@@ -74,7 +74,7 @@ public class Song {
                 ", author='" + author + '\'' +
                 ", songName='" + songName + '\'' +
                 ", genre='" + genre + '\'' +
-                ", album='" + album + '\'' +
+                ", album='" + album.toString() + '\'' +
                 '}';
     }
 }

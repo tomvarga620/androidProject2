@@ -55,8 +55,13 @@ public class RecyclerViewAdapterSongs extends RecyclerView.Adapter<RecyclerViewA
                 Intent player = new Intent(view.getContext(), MediaPlayerActivity.class);
                 player.putExtra("id",listOfSongs.get(position).getId());
                 player.putExtra("author",listOfSongs.get(position).getAuthor());
-                player.putExtra("album",albumName);
-                player.putExtra("albumId",albumId);
+                if(albumId == -1 && albumName.equalsIgnoreCase("favListCase")){
+                    player.putExtra("album",listOfSongs.get(position).getAlbum().getAlbumName());
+                    player.putExtra("albumId",listOfSongs.get(position).getAlbum().getId());
+                }else{
+                    player.putExtra("album",albumName);
+                    player.putExtra("albumId",albumId);
+                }
                 player.putExtra("genre",listOfSongs.get(position).getGenre());
                 player.putExtra("songName",listOfSongs.get(position).getSongName());
                 view.getContext().startActivity(player);

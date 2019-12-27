@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.tomvarga.androidproject2.POJO.Album;
 import com.tomvarga.androidproject2.POJO.FavoritList;
 import com.tomvarga.androidproject2.POJO.Song;
 import com.tomvarga.androidproject2.RecycleViewAdapters.RecycleViewAdapterChooseFavList;
@@ -135,7 +136,7 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
                                 ArrayList<Song> songsArray = new ArrayList<>();
                                 for (int a = 0; a < songsJson.length(); a++) {
                                     JSONObject song = songsJson.getJSONObject(a);
-                                    Song tempSong = new Song(song.getLong("id"),"","","","","");
+                                    Song tempSong = new Song(song.getLong("id"),"","","",new Album((long) 0,""),"");
                                     songsArray.add(tempSong);
                                 }
 
