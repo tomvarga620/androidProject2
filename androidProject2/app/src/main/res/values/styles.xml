@@ -10,6 +10,8 @@
         <item name="bkgcolor">@drawable/gradientbkg</item>
         <item name="btnplaycolor">#FFC700</item>
         <item name="btnplaybkgcolor">#FFFFFF</item>
+        <item name="seekbarstyle">#8E8E8E</item>
+        <item name="hintText">#363636</item>
 
         <item name="colorPrimaryDark">#FFD231</item>
 
@@ -24,9 +26,22 @@
         <item name="bkgcolor">@drawable/gradientbkgdark</item>
         <item name="btnplaycolor">#444444</item>
         <item name="btnplaybkgcolor">#FFFFFF</item>
+        <item name="seekbarstyle">#FFC700</item>
+        <item name="hintText">#E7E7E7</item>
+
 
         <item name="colorPrimaryDark">#444444</item>
 
+    </style>
+
+    <style name="DialogeTheme" parent="Theme.AppCompat.Dialog.Alert">
+<!--        <item name="android:background">@color/all_item_bg</item>-->
+        <item name="colorAccent">#363636</item>
+    </style>
+
+    <style name="DialogeThemeDark" parent="Theme.AppCompat.Dialog.Alert">
+        <!--        <item name="android:background">@color/all_item_bg</item>-->
+        <item name="colorAccent">#FFC700</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">

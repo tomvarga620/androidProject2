@@ -58,13 +58,21 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        modSharedPrefs = new SharedPrefs(getActivity());
+        AlertDialog.Builder builder;
+        if (modSharedPrefs.loadDarkModeState() == true) {
+            builder = new AlertDialog.Builder(getActivity(),R.style.DialogeThemeDark);
+        } else {
+            builder = new AlertDialog.Builder(getActivity(),R.style.DialogeTheme);
+        }
+
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         view = inflater.inflate(R.layout.layout_favllist_dialog,null);
 
         myQueue = Volley.newRequestQueue(view.getContext());
+
 
         modSharedPrefs = new SharedPrefs(view.getContext());
         initRecycleView();

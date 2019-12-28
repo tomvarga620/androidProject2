@@ -31,7 +31,10 @@
         android:ems="10"
         android:hint="Type name of new Favorit List"
         android:inputType="textPersonName"
-        android:textColor="#00000000" />
+        android:textColor="?attr/btnplaybkgcolor"
+        android:textColorHint="?attr/hintText"
+        android:backgroundTint="?attr/hintText"
+        android:textCursorDrawable="?attr/hintText"/>
 
     <Button
         android:id="@+id/createList"

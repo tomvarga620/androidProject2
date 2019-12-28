@@ -8,5 +8,7 @@
         <attr name="bkgcolor" format="reference" />
         <attr name="btnplaycolor" format="color"/>
         <attr name="btnplaybkgcolor" format="color"/>
+        <attr name="seekbarstyle" format="color"/>
+        <attr name="hintText" format="color"/>
     </declare-styleable>
 </resources>
