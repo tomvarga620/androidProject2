@@ -265,40 +265,6 @@ public class MediaPlayerActivity extends AppCompatActivity{
         finish();
     }
 
-//    @Override
-//    public void finish() {
-//        super.finish();
-//        overridePendingTransition(0,R.anim.slide_out_left);
-//    }
-
-//    @Override
-//    protected void onPause() { //Pause means shuting down I thing
-//        super.onPause();
-//
-//        Log.i("onPause","Time "+mediaPlayer.getCurrentPosition());
-//
-//    }
-
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putInt("timePlayed", mediaPlayer.getCurrentPosition());
-//        Log.i("onSaveInstanceState", String.valueOf(outState.getInt("timePlayed")));
-//
-//    }
-//
-//    @Override
-//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//        int time = savedInstanceState.getInt("timePlayed");
-//        mediaPlayer.seekTo(time);
-//        changeSeekbar();
-//        Log.i("onRestoreInstanceState", String.valueOf(savedInstanceState.getInt("timePlayed")));
-//
-//    }
-
-
-
     private void  changeSeekbar(){
 
         int currentPosition = mediaPlayer.getCurrentPosition();

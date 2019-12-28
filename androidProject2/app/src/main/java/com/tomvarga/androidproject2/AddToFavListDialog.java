@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tomvarga.androidproject2.POJO.Album;
 import com.tomvarga.androidproject2.POJO.FavoritList;
 import com.tomvarga.androidproject2.POJO.Song;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 
 public class AddToFavListDialog extends AppCompatDialogFragment {
 
+    private FloatingActionButton favSong;
     private EditText typingNewList;
     private Button createNewList;
 
@@ -59,6 +61,7 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
+
         view = inflater.inflate(R.layout.layout_favllist_dialog,null);
 
         myQueue = Volley.newRequestQueue(view.getContext());
@@ -87,8 +90,11 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
                         for (Long idList: forRemoving) {
                             sendPostRequestRemoveFromList(idList);
                         }
-
-
+                        try {
+                            ((MediaPlayerActivity) getActivity()).isSongLiked();
+                        }catch (Exception e) {
+                            e.getMessage();
+                        }
                     }
                 });
 
@@ -110,6 +116,8 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
 
         return builder.create();
     }
+
+
 
     private void initRecycleView() {
         RecyclerView recyclerView = view.findViewById(R.id.recycleChoseFavList);
@@ -217,4 +225,5 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
         };
         myQueue.add(jsonObjectRequest);
     }
+
 }
