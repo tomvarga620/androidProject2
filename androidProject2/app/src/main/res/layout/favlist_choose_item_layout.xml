@@ -16,7 +16,7 @@
         android:textSize="@dimen/_15sdp"
         android:textAlignment="textStart"
 
-        android:buttonTint="?attr/coloricon"
+        android:buttonTint="?attr/seekbarstyle"
         android:fontFamily="@font/open_sans_semibold"
         android:textColor="?attr/colortext"
         android:ellipsize="end"

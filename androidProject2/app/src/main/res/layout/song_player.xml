@@ -186,3 +186,6 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--        style="?android:attr/progressBarStyleHorizontal" , <- Replace with custom style here.-->
