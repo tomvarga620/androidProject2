@@ -7,12 +7,14 @@ import com.spring_stream.server_song.model.Song;
 import com.spring_stream.server_song.service.AccountService;
 import com.spring_stream.server_song.service.FavListService;
 import com.spring_stream.server_song.service.SongService;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ForkJoinPool;
@@ -32,6 +34,21 @@ public class FavListController {
     public FavoriteList insertFavList(@RequestParam String token, @RequestParam String title) {
         FavoriteList favoriteList = new FavoriteList(title,getAccountByToken(token));
         return favListService.insertFavList(favoriteList);
+    }
+
+    @DeleteMapping(value = "/deleteFavoriteList")
+    public ResponseEntity deleteFavList(@RequestParam String token, @RequestParam Long id) {
+        Account account = getAccountByToken(token);
+        if (primitiveSecurity.accessTokens.get(account.getUsername()).equals(token)) {
+            FavoriteList favoriteList = favListService.getListById(id);
+            favoriteList.getSongSet().clear();
+            favListService.insertFavList(favoriteList);
+
+            favListService.deleteById(id);
+            return new ResponseEntity(HttpStatus.OK);
+        }else {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @GetMapping(value = "/getAllFavoriteLists", produces = MediaType.APPLICATION_JSON_VALUE)

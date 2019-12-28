@@ -29,4 +29,8 @@ public class FavListService {
         return favoriteListRepozitory.findById(id).get();
     }
 
+    public void deleteById(Long idFav) {
+        favoriteListRepozitory.deleteById(idFav);
+    }
+
 }

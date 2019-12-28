@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface FavoriteListRepozitory extends JpaRepository<FavoriteList, Long> {
     public List<FavoriteList> findAllByAccount_Id(Long id);
     public Optional<FavoriteList> findById(Long id);
+    public void deleteById(Long id);
 }
