@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.concurrent.ForkJoinPool;
 
 @RestController
@@ -45,6 +46,28 @@ public class FavListController {
             favListService.insertFavList(favoriteList);
 
             favListService.deleteById(id);
+            return new ResponseEntity(HttpStatus.OK);
+        }else {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @DeleteMapping(value = "/deleteFavoriteLists", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity deleteFavLists(@RequestParam String token, @RequestBody Iterable<FavoriteList> id) {
+        Account account = getAccountByToken(token);
+        if (primitiveSecurity.accessTokens.get(account.getUsername()).equals(token)) {
+
+                for (FavoriteList tempId: id){
+                    try{
+                        FavoriteList favoriteList = favListService.getListById(tempId.getId());
+                        favoriteList.getSongSet().clear();
+                        favListService.insertFavList(favoriteList);
+
+                        favListService.deleteById(tempId.getId());
+                    }catch (NoSuchElementException e) {
+                        System.out.println("NoSuchElementException ON ID: "+tempId.getId());
+                    }
+                }
             return new ResponseEntity(HttpStatus.OK);
         }else {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
