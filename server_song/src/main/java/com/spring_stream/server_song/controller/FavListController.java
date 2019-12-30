@@ -1,6 +1,8 @@
 package com.spring_stream.server_song.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.spring_stream.security.PrimitiveSecurity;
+import com.spring_stream.server_song.CustResponse;
 import com.spring_stream.server_song.model.Account;
 import com.spring_stream.server_song.model.FavoriteList;
 import com.spring_stream.server_song.model.Song;
@@ -38,7 +40,7 @@ public class FavListController {
     }
 
     @DeleteMapping(value = "/deleteFavoriteList")
-    public ResponseEntity deleteFavList(@RequestParam String token, @RequestParam Long id) {
+    public ResponseEntity<CustResponse> deleteFavList(@RequestParam String token, @RequestParam Long id) {
         Account account = getAccountByToken(token);
         if (primitiveSecurity.accessTokens.get(account.getUsername()).equals(token)) {
             FavoriteList favoriteList = favListService.getListById(id);
@@ -46,14 +48,16 @@ public class FavListController {
             favListService.insertFavList(favoriteList);
 
             favListService.deleteById(id);
-            return new ResponseEntity(HttpStatus.OK);
+            CustResponse custResponse = new CustResponse("Successfully removed");
+            return new ResponseEntity(custResponse,HttpStatus.OK);
         }else {
-            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+            CustResponse custResponse = new CustResponse("Unauthorized");
+            return new ResponseEntity(custResponse,HttpStatus.UNAUTHORIZED);
         }
     }
 
     @DeleteMapping(value = "/deleteFavoriteLists", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity deleteFavLists(@RequestParam String token, @RequestBody Iterable<FavoriteList> id) {
+    public ResponseEntity<CustResponse> deleteFavLists(@RequestParam String token, @RequestBody Iterable<FavoriteList> id) {
         Account account = getAccountByToken(token);
         if (primitiveSecurity.accessTokens.get(account.getUsername()).equals(token)) {
 
@@ -68,9 +72,11 @@ public class FavListController {
                         System.out.println("NoSuchElementException ON ID: "+tempId.getId());
                     }
                 }
-            return new ResponseEntity(HttpStatus.OK);
+            CustResponse custResponse = new CustResponse("Successfully removed");
+            return new ResponseEntity(custResponse,HttpStatus.OK);
         }else {
-            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+            CustResponse custResponse = new CustResponse("Unauthorized");
+            return new ResponseEntity(custResponse,HttpStatus.UNAUTHORIZED);
         }
     }
 
