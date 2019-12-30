@@ -10,5 +10,6 @@
         <attr name="btnplaybkgcolor" format="color"/>
         <attr name="seekbarstyle" format="color"/>
         <attr name="hintText" format="color"/>
+        <attr name="titleDialog" format="color"/>
     </declare-styleable>
 </resources>

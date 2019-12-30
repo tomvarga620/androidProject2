@@ -73,8 +73,6 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
 
         myQueue = Volley.newRequestQueue(view.getContext());
 
-
-        modSharedPrefs = new SharedPrefs(view.getContext());
         initRecycleView();
         getData();
 

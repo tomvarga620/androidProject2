@@ -6,11 +6,27 @@
     android:orientation="vertical"
     >
 
+    <TextView
+        android:id="@+id/currentTitleList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/open_sans_semibold"
+        android:textColor="?attr/colortext"
+        />
+
     <LinearLayout
+        android:id="@+id/removeList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:padding="@dimen/_15sdp">
+        android:padding="@dimen/_15sdp"
+        android:background="@android:color/white"
+        >
 
         <ImageView
             android:id="@+id/imageView"
@@ -31,10 +47,12 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/cancelAction"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:padding="@dimen/_15sdp">
+        android:padding="@dimen/_15sdp"
+        android:background="@android:color/white">
 
         <ImageView
             android:id="@+id/imageView2"

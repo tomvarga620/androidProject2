@@ -37,10 +37,12 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
 
     ArrayList<FavoritList> favoritLists;
     SharedPrefs sharedPrefs;
+    String token;
 
-    public RecycleViewAdapterNameFavLists(ArrayList<FavoritList> favoritLists, Context context) {
+    public RecycleViewAdapterNameFavLists(ArrayList<FavoritList> favoritLists, Context context, String token) {
         this.favoritLists = favoritLists;
         sharedPrefs = new SharedPrefs(context);
+        this.token = token;
 
     }
 
@@ -53,7 +55,7 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final FavoritList favoritList = favoritLists.get(position);
         holder.name.setText(favoritList.getTitle());
 
@@ -111,7 +113,7 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
         holder.parent.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                RemoveFavListBottomSheetDialog bottomSheet = new RemoveFavListBottomSheetDialog();
+                RemoveFavListBottomSheetDialog bottomSheet = new RemoveFavListBottomSheetDialog(favoritList.getId(),token,position,favoritList.getTitle());
                 bottomSheet.show(((FavoriteActivity)view.getContext()).getSupportFragmentManager(), "remove_favList_Bottom_SheetDialog");
                 return false;
             }

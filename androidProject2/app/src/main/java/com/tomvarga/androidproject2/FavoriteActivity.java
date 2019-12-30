@@ -160,9 +160,14 @@ public class FavoriteActivity extends AppCompatActivity {
 
     private void initRecycleView() {
         RecyclerView recyclerView = findViewById(R.id.favorit_list_RecycleView);
-        adapter = new RecycleViewAdapterNameFavLists(favoritLists,this);
+        adapter = new RecycleViewAdapterNameFavLists(favoritLists,this,token);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    public void removeViewFromList(int position) {
+        favoritLists.remove(position);
+        adapter.notifyDataSetChanged();
     }
 
 }
