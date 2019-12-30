@@ -18,9 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.tomvarga.androidproject2.FavoriteActivity;
 import com.tomvarga.androidproject2.FavoriteSongsFromList;
 import com.tomvarga.androidproject2.POJO.FavoritList;
 import com.tomvarga.androidproject2.R;
+import com.tomvarga.androidproject2.RemoveFavListBottomSheetDialog;
 import com.tomvarga.androidproject2.SharedPrefs;
 
 import java.io.InputStream;
@@ -103,6 +105,15 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
 
 
                 view.getContext().startActivity(player);
+            }
+        });
+
+        holder.parent.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                RemoveFavListBottomSheetDialog bottomSheet = new RemoveFavListBottomSheetDialog();
+                bottomSheet.show(((FavoriteActivity)view.getContext()).getSupportFragmentManager(), "remove_favList_Bottom_SheetDialog");
+                return false;
             }
         });
     }

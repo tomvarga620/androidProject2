@@ -14,7 +14,7 @@
         <item name="hintText">#363636</item>
 
         <item name="colorPrimaryDark">#FFD231</item>
-
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <style name="DarkTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -39,10 +39,25 @@
         <item name="colorAccent">#363636</item>
     </style>
 
+
+
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
     <style name="DialogeThemeDark" parent="Theme.AppCompat.Dialog.Alert">
         <!--        <item name="android:background">@color/all_item_bg</item>-->
         <item name="colorAccent">#FFC700</item>
     </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_custom_dialog</item>
+    </style>
+
+
+
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background</item>

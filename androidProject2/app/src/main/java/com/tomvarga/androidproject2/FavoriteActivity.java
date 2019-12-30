@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,14 +36,18 @@ public class FavoriteActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
     SharedPrefs modSharedPrefs;
+
     private RequestQueue queue;
     private RecycleViewAdapterNameFavLists adapter;
     private ArrayList<FavoritList> favoritLists = new ArrayList<>();
+
+    private ImageButton more;
 
     String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         modSharedPrefs = new SharedPrefs(this);
         if (modSharedPrefs.loadDarkModeState() == true) {
             setTheme(R.style.DarkTheme);
@@ -58,6 +65,7 @@ public class FavoriteActivity extends AppCompatActivity {
         initRecycleView();
         getData();
 
+        more = findViewById(R.id.btnMore);
         bottomNav = findViewById(R.id.bottom_navigation);
         Menu menu = bottomNav.getMenu();
         MenuItem menuItem = menu.getItem(1);
@@ -82,6 +90,13 @@ public class FavoriteActivity extends AppCompatActivity {
                         finish();
                         break;
                 }return true;
+            }
+        });
+
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"Now choose to delete",Toast.LENGTH_LONG).show();
             }
         });
     }
