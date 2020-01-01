@@ -50,7 +50,6 @@ public class RecyclerViewAdapterAlbums extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        Log.d(TAG,"onBindViewHolder: called new item is added to list");
         holder.albumName.setText(listOfALbums.get(position).getAlbumName());
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
 

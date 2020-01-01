@@ -78,7 +78,7 @@ public class RemoveFavListBottomSheetDialog extends BottomSheetDialogFragment {
         JsonObjectRequest jsonOblect = new JsonObjectRequest(Request.Method.DELETE, URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Toast.makeText(v.getContext(), "Response:  " + response.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "Favorit list successfully deleted", Toast.LENGTH_SHORT).show();
                 ((FavoriteActivity)getActivity()).removeViewFromList(position);
                 dismiss();
             }

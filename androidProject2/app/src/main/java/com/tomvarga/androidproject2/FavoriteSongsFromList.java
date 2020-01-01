@@ -136,7 +136,6 @@ public class FavoriteSongsFromList extends AppCompatActivity {
                 }
 
                 if (position == currentFarSongList.size()-1){
-                    Toast.makeText(FavoriteSongsFromList.this,"Everything loaded",Toast.LENGTH_LONG).show();
                     adapter.notifyDataSetChanged();
 
                     SharedPreferences sharedPreferences = getSharedPreferences("songListPreferences", MODE_PRIVATE);

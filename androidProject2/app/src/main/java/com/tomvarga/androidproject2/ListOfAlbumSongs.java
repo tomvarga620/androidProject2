@@ -64,7 +64,6 @@ public class ListOfAlbumSongs extends AppCompatActivity {
         setContentView(R.layout.activity_list_of_album_songs);
 
         initRecycleView();
-        // Button getRequest = findViewById(R.id.getReuqest);
         myQueue = Volley.newRequestQueue(this);
 
         albumView = findViewById(R.id.albumText);

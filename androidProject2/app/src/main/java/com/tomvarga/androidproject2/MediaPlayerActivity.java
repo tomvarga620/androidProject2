@@ -304,11 +304,6 @@ public class MediaPlayerActivity extends AppCompatActivity{
 
             Uri uri = Uri.parse(strings[0]);
 
-
-            Log.d("URI",uri.toString());
-            Log.d("Username",headers.get("username"));
-            Log.d("Token",headers.get("token"));
-
             try {
                 mediaPlayer.setDataSource(MediaPlayerActivity.this.getApplicationContext(),uri,headers);
                 mediaPlayer.setOnCompletionListener(new android.media.MediaPlayer.OnCompletionListener() {
@@ -319,7 +314,6 @@ public class MediaPlayerActivity extends AppCompatActivity{
                         player.setImageResource(R.drawable.ic_action_play);
                         mediaPlayer.stop();
                         mediaPlayer.reset();
-                        Log.i("SONG DURATION", String.valueOf(mediaPlayer.getDuration()));
                     }
                 });
 

@@ -55,8 +55,6 @@ public class RecycleViewAdapterChooseFavList extends RecyclerView.Adapter<Recycl
             public void onClick(View view) {
                 if (holder.checkBox.isChecked()) {
 
-                    System.out.println("Clicked to check");
-
                     if (!listWaitingForAdding.contains(listOfFavLists.get(position).getId())){
                         if (!inListAlreadyAdded.contains(listOfFavLists.get(position).getId())){
                             listWaitingForAdding.add(listOfFavLists.get(position).getId());
@@ -72,8 +70,6 @@ public class RecycleViewAdapterChooseFavList extends RecyclerView.Adapter<Recycl
 
                 }else {
 
-                    System.out.println("Clicked to uncheck");
-
                     if (!listWaitingForRemoving.contains(listOfFavLists.get(position).getId())){
                         if (inListAlreadyAdded.contains(listOfFavLists.get(position).getId())) {
                             listWaitingForRemoving.add(listOfFavLists.get(position).getId());
@@ -87,17 +83,6 @@ public class RecycleViewAdapterChooseFavList extends RecyclerView.Adapter<Recycl
                     holder.checkBox.setChecked(false);
 
                 }
-
-                System.out.println("listWaitingForAdding");
-                for (Long id: listWaitingForAdding){
-                    System.out.println(id);
-                }
-                System.out.println();
-                System.out.println("listWaitingForRemoving");
-                for (Long id: listWaitingForRemoving){
-                    System.out.println(id);
-                }
-                System.out.println();
             }
             //
             //  Alert toto nefunguje korektne ma to robit to ze ak chce clovek pridat tak to da do listu na pridavanie a checkne box

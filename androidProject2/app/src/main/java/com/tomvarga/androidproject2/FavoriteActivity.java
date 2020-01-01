@@ -2,12 +2,10 @@ package com.tomvarga.androidproject2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,9 +52,6 @@ public class FavoriteActivity extends AppCompatActivity {
         } else {
             setTheme(R.style.AppTheme);
         }
-
-        Log.i("FavoriteActivity","onCreate");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
 
@@ -96,7 +91,6 @@ public class FavoriteActivity extends AppCompatActivity {
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Now choose to delete",Toast.LENGTH_LONG).show();
             }
         });
     }

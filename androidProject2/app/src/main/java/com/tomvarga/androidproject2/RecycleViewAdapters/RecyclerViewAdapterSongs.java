@@ -43,9 +43,7 @@ public class RecyclerViewAdapterSongs extends RecyclerView.Adapter<RecyclerViewA
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        Log.d(TAG,"onBindViewHolder: called new item is added to list");
         holder.authorTXV.setText(listOfSongs.get(position).getAuthor());
-      //  holder.albumTXV.setText(listOfSongs.get(position).getAlbum());
         holder.songTXV.setText(listOfSongs.get(position).getSongName());
         holder.songTXV.setSelected(true);
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {

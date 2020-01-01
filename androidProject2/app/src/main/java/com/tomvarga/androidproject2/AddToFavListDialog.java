@@ -3,7 +3,10 @@ package com.tomvarga.androidproject2;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +28,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tomvarga.androidproject2.POJO.Album;
 import com.tomvarga.androidproject2.POJO.FavoritList;
 import com.tomvarga.androidproject2.POJO.Song;
@@ -34,12 +40,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class AddToFavListDialog extends AppCompatDialogFragment {
 
     private FloatingActionButton favSong;
     private EditText typingNewList;
     private Button createNewList;
+    HashMap<Long, List<Long>> removeIdSongfromIdList;
+
 
     RecycleViewAdapterChooseFavList adapter;
     ArrayList<FavoritList> list_favList = new ArrayList<>();
@@ -70,11 +82,11 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         view = inflater.inflate(R.layout.layout_favllist_dialog,null);
-
         myQueue = Volley.newRequestQueue(view.getContext());
 
         initRecycleView();
         getData();
+        get_RemoveIdSongfromIdList();
 
         builder.setView(view)
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -84,18 +96,35 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
                     }
                 })
                 .setPositiveButton("save", new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
                         ArrayList<Long> forAdding = adapter.getListsForAdding();
                         ArrayList<Long> forRemoving = adapter.getListsForRemoving();
 
                         for (Long idList: forAdding) {
+
+                            if (removeIdSongfromIdList.containsKey(idSong)){
+                                if (removeIdSongfromIdList.get(idSong).contains(idList)){
+                                    removeIdSongfromIdList.get(idSong).remove(idList);
+                                }
+                            }
                             sendPostRequestAddToList(idList);
                         }
 
                         for (Long idList: forRemoving) {
+                            if (removeIdSongfromIdList.containsKey(idSong)){
+                                removeIdSongfromIdList.get(idSong).add(idList);
+                            }else {
+                                List<Long> listOfLists = new ArrayList<>();
+                                listOfLists.add(idList);
+                                removeIdSongfromIdList.put(idSong,listOfLists);
+                            }
                             sendPostRequestRemoveFromList(idList);
                         }
+                        save_RemoveIdSongfromIdList();
+
                         try {
                             ((MediaPlayerActivity) getActivity()).isSongLiked();
                         }catch (Exception e) {
@@ -174,20 +203,20 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
 
     }
 
-    private void sendNewListPostRequest(String title) {
+    private void sendNewListPostRequest(final String title) {
 
             String URL = modSharedPrefs.getIP()+"/insertFavoriteList?token="+token+"&title="+title;
 
             JsonObjectRequest jsonOblect = new JsonObjectRequest(Request.Method.POST, URL, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Toast.makeText(view.getContext(), "Response:  " + response.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Favorit list: "+title+" was created", Toast.LENGTH_SHORT).show();
                     getData();
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(view.getContext(), "Error: something wrong", Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(), "Error: "+error.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }) {
             };
@@ -201,12 +230,12 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
         JsonObjectRequest jsonOblect = new JsonObjectRequest(Request.Method.POST, URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Toast.makeText(view.getContext(), "Response:  successfully done", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Successfully added to favorit list", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(view.getContext(), "Error: something wrong", Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(), "Error: "+error.getMessage(), Toast.LENGTH_LONG).show();
             }
         }) {
         };
@@ -220,16 +249,62 @@ public class AddToFavListDialog extends AppCompatDialogFragment {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Toast.makeText(view.getContext(), "Response:  successfully done", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Successfully removed from favorit list", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(view.getContext(), "Error: something wrong", Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(), "Error: "+error.getMessage(), Toast.LENGTH_LONG).show();
             }
         }) {
         };
         myQueue.add(jsonObjectRequest);
     }
 
+    private void get_RemoveIdSongfromIdList() {
+        System.out.println("get_RemoveIdSongfromIdList called");
+        Gson gson = new Gson();
+
+        SharedPreferences share = view.getContext().getSharedPreferences("songFarListPreferences",view.getContext().MODE_PRIVATE);
+        String getHashMap = share.getString("removeIdSongFromIdList",null);
+        java.lang.reflect.Type type = new TypeToken<HashMap<Long,List<Long>>>(){}.getType();
+        removeIdSongfromIdList = gson.fromJson(getHashMap,type);
+        if (removeIdSongfromIdList == null){
+            removeIdSongfromIdList = new HashMap<>();
+            System.out.println("Initializing list");
+        }else{
+            System.out.println("removeIdSongFromList none null");
+        }
+        printHashMap();
+    }
+
+    private void save_RemoveIdSongfromIdList() {
+        System.out.println("save_RemoveIdSongfromIdList called");
+
+        Gson gson = new Gson();
+        String hashMaptoSave = gson.toJson(removeIdSongfromIdList);
+
+        SharedPreferences share = view.getContext().getSharedPreferences("songFarListPreferences",view.getContext().MODE_PRIVATE);
+        share.edit().putString("removeIdSongFromIdList",hashMaptoSave).apply();
+
+        printHashMap();
+
+    }
+
+
+    private void printHashMap() {
+        System.out.println("printHashMap called");
+            Iterator iterator = removeIdSongfromIdList.entrySet().iterator();
+        Log.i("PAIR OF SONG AND LIST","starting printing");
+        while (iterator.hasNext()) {
+                Map.Entry pair = (Map.Entry)iterator.next();
+                Log.i("SongId",pair.getKey().toString());
+                List<Long> tempArray = (List<Long>) pair.getValue();
+                for (Long idList:tempArray) {
+                    Log.i("ListId",idList.toString());
+                }
+                Log.i("PAIR OF SONG AND LIST","End of this id");
+//                iterator.remove();
+            }
+    }
 }
