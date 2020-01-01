@@ -90,6 +90,7 @@ public class RecycleViewAdapterNameFavLists extends RecyclerView.Adapter<Recycle
                 Intent player = new Intent(view.getContext(), FavoriteSongsFromList.class);
 
                 player.putExtra("title",favoritList.getTitle());
+                player.putExtra("idFavList",favoritList.getId());
 
                 SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("songFarListPreferences", MODE_PRIVATE);
                 SharedPreferences.Editor sharedPreferencesEditor1 = sharedPreferences.edit();

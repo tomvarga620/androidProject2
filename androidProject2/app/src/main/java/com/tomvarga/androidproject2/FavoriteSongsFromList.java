@@ -31,6 +31,8 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class FavoriteSongsFromList extends AppCompatActivity {
 
@@ -38,10 +40,13 @@ public class FavoriteSongsFromList extends AppCompatActivity {
     SharedPrefs modSharedPrefs;
 
     TextView nameOfList;
+    Long idFavList;
 
     private RequestQueue queue;
     ArrayList<Song> currentFarSongList=new ArrayList<>();
     RecyclerViewAdapterSongs adapter;
+
+    HashMap<Long,List<Long>> idListWithIdSongsFromRemoving;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +58,14 @@ public class FavoriteSongsFromList extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_list_of_album_songs);
 
         queue = Volley.newRequestQueue(this);
 
         Bundle savedData = getIntent().getExtras();
         String title = savedData.getString("title");
+        idFavList = savedData.getLong("idFavList");
 
         nameOfList = findViewById(R.id.albumText);
         nameOfList.setText(title);
@@ -154,5 +161,65 @@ public class FavoriteSongsFromList extends AppCompatActivity {
         });
 
         queue.add(getAlbumInfo);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("FavoriteSongsFromList onResume");
+        get_RemoveIdSongfromIdList();
+        removeSongsWhichWasRemoved();
+        adapter.notifyDataSetChanged();
+    }
+
+    private void get_RemoveIdSongfromIdList() {
+        Gson gson = new Gson();
+        SharedPreferences share = getSharedPreferences("songFarListPreferences",MODE_PRIVATE);
+        String getHashMap = share.getString("removeIdSongFromIdList",null);
+        java.lang.reflect.Type type = new TypeToken<HashMap<Long, List<Long>>>(){}.getType();
+        idListWithIdSongsFromRemoving = gson.fromJson(getHashMap,type);
+        if (idListWithIdSongsFromRemoving == null){
+            idListWithIdSongsFromRemoving = new HashMap<>();
+            System.out.println("Initializing list");
+        }
+    }
+
+    private void save_RemoveIdSongfromIdList() {
+        Gson gson = new Gson();
+        String hashMaptoSave = gson.toJson(idListWithIdSongsFromRemoving);
+
+        SharedPreferences share = getSharedPreferences("songFarListPreferences",MODE_PRIVATE);
+        share.edit().putString("removeIdSongFromIdList",hashMaptoSave).apply();
+    }
+
+    private void removeSongsWhichWasRemoved() {
+        System.out.println("removeSongsWhichWasRemoved");
+
+        if (idListWithIdSongsFromRemoving.containsKey(idFavList)){
+            List<Long> idSongs = idListWithIdSongsFromRemoving.get(idFavList);
+
+            System.out.println("IDSongs: "+idSongs.toString());
+            System.out.println("currentFarSongList size "+currentFarSongList.size());
+
+            int a = 0;
+            int index = 0;
+            int allSongs = currentFarSongList.size();
+
+            while(index!=allSongs){
+                System.out.println("Index: "+index);
+                index++;
+                if (idSongs.contains(currentFarSongList.get(a).getId())){
+                    idListWithIdSongsFromRemoving.get(idFavList).remove(currentFarSongList.get(a).getId());
+                    currentFarSongList.remove(currentFarSongList.get(a));
+
+                    System.out.println("current_Far_Song_List: "+currentFarSongList.size());
+                    System.out.println("id_SONGS_for_removing: "+idListWithIdSongsFromRemoving.get(idFavList).toString());
+                }else {
+                    a++;
+                }
+            }
+            save_RemoveIdSongfromIdList();
+
+        }
     }
 }

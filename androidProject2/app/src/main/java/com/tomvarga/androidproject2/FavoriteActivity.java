@@ -1,6 +1,7 @@
 package com.tomvarga.androidproject2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 import com.tomvarga.androidproject2.POJO.Album;
 import com.tomvarga.androidproject2.POJO.FavoritList;
 import com.tomvarga.androidproject2.POJO.Song;
@@ -29,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FavoriteActivity extends AppCompatActivity {
 
@@ -148,6 +151,8 @@ public class FavoriteActivity extends AppCompatActivity {
             }
         });
 
+        eraseRemovingList();
+
         queue.add(request);
 
     }
@@ -162,6 +167,15 @@ public class FavoriteActivity extends AppCompatActivity {
     public void removeViewFromList(int position) {
         favoritLists.remove(position);
         adapter.notifyDataSetChanged();
+    }
+
+    private void eraseRemovingList() {
+        Gson gson = new Gson();
+        String hashMaptoSave = gson.toJson(new HashMap<>());
+
+        SharedPreferences share = getSharedPreferences("songFarListPreferences",MODE_PRIVATE);
+        share.edit().putString("removeIdSongFromIdList",hashMaptoSave).apply();
+
     }
 
 }
